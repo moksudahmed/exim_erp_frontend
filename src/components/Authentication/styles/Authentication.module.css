@@ -1,0 +1,91 @@
+/* Authentication.module.css */
+
+.authContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+  
+  .authForm {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .authForm h2 {
+    margin-bottom: 20px;
+    color: #343a40;
+    text-align: center;
+  }
+  
+  .formField {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .formField label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  .formField input {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .formField input:focus {
+    border-color: #80bdff;
+    outline: none;
+  }
+  
+  .authButton {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .authButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .errorMessage {
+    color: #dc3545;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .successMessage {
+    color: #28a745;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .toggleLink {
+    color: #007bff;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .toggleLink:hover {
+    text-decoration: underline;
+  }
+  

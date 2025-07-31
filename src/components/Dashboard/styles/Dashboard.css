@@ -1,0 +1,51 @@
+.dashboard-content {
+    padding: 20px;
+  }
+  
+  .stats-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 23%;
+    text-align: center;
+  }
+  
+  .charts {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .line-chart, .pie-chart {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 48%;
+  }
+  .badge {
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+  }
+  
+  .badge-open {
+    background-color: #28a745; /* Green background */
+    color: white;
+  }
+  
+  .badge-close {
+    background-color: #dc3545; /* Red background */
+    color: white;
+  }
+    

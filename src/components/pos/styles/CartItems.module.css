@@ -1,0 +1,47 @@
+.cartContainer {
+  margin-top: 2rem;
+}
+
+.emptyMessage {
+  color: red;
+}
+
+.cartList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f1f1f1;
+}
+
+.itemDetails {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.removeButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background-color: #c82333;
+}
+
+.cartTotal {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: right;
+}

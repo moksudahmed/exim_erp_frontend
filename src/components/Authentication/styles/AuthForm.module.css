@@ -1,0 +1,71 @@
+.authContainer {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputGroup {
+    margin-bottom: 15px;
+  }
+  /* AuthForm.module.css */
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+  
+  .inputGroup label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .inputGroup input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .submitButton {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .submitButton:hover {
+    background-color: #45a049;
+  }
+  
+  .linkGroup {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .linkGroup a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+  
+  .linkGroup a:hover {
+    text-decoration: underline;
+  }
+  

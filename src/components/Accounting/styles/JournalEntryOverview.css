@@ -1,0 +1,120 @@
+/* General container */
+.ledger-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.ledger-title {
+  text-align: center;
+  font-size: 24px;
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Table styling */
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.ledger-table th,
+.ledger-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.ledger-table th {
+  background-color: #f7f7f7;
+  font-weight: 600;
+  color: #34495e;
+}
+
+.ledger-row:hover {
+  background-color: #f4f8fb;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.open-btn {
+  background-color: #2980b9;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* Ledger details */
+.ledger-details-row td {
+  padding: 0;
+}
+
+.ledger-details {
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.ledger-entries {
+  list-style: none;
+  padding: 0;
+}
+
+.ledger-entries li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.ledger-entries li:last-child {
+  border-bottom: none;
+}
+
+.entry-narration {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.entry-debitcredit {
+  font-style: italic;
+  color: #8e44ad;
+}
+
+.entry-amount {
+  font-weight: bold;
+  color: #27ae60;
+}
+
+/* No entries message */
+.no-entries-message {
+  text-align: center;
+  font-size: 18px;
+  color: #7f8c8d;
+}

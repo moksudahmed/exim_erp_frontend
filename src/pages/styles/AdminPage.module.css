@@ -1,0 +1,54 @@
+.adminContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .layout {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .sidebarTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .navList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .navItem {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .navItem:hover {
+    background-color: #495057;
+  }
+  
+  .content {
+    flex-grow: 1;
+    margin-left: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  

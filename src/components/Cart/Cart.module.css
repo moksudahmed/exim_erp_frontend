@@ -1,0 +1,55 @@
+/* Cart.module.css */
+
+.form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .form-field label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  .form-field input,
+  .form-field select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .form-field input:focus,
+  .form-field select:focus {
+    border-color: #80bdff;
+    outline: none;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  
+  .btn:hover {
+    background-color: #218838;
+  }
+  

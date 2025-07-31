@@ -1,0 +1,41 @@
+.ledger-container {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .ledger-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #c1e0ff;
+    background-color: #f0f8ff;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .ledger-table th, .ledger-table td {
+    padding: 8px 12px;
+    border: 1px solid #c1e0ff;
+    text-align: center;
+  }
+  
+  .ledger-table th {
+    background-color: #e0f0ff;
+    font-weight: bold;
+  }
+  
+  .ledger-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .ledger-table tbody tr:hover {
+    background-color: #f1f9ff;
+  }
+  

@@ -1,0 +1,98 @@
+/* SalesSummary.css */
+
+/* Container for the entire Sales Summary section */
+.sales-summary-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* Filter section styling */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.filters label {
+  font-weight: bold;
+  color: #333;
+}
+
+.filters input[type="date"] {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100px;
+}
+
+/* Summary metrics container */
+.summary-metrics {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.metric {
+  text-align: center;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 30%;
+}
+
+.metric h3 {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.metric p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d2d2d;
+}
+
+/* Sales count section */
+.sales-count {
+  font-size: 1rem;
+  color: #555;
+  text-align: center;
+}
+
+.sales-count strong {
+  font-weight: bold;
+  color: #2d2d2d;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .summary-metrics {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .metric {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

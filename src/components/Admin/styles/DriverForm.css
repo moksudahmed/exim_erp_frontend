@@ -1,0 +1,75 @@
+.driver-form-container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  background: #f9fbff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.driver-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.driver-form input,
+.driver-form select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.radio-group {
+  margin: 12px 0;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.radio-group label {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.form-error {
+  color: red;
+  margin-top: 10px;
+}
+
+.form-success {
+  color: green;
+  margin-top: 10px;
+}
+
+.driver-list-title {
+  margin-top: 30px;
+  font-size: 1.2em;
+}
+
+.driver-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.driver-list li {
+  margin-bottom: 6px;
+}
+.tape-inputs label {
+  display: block;
+  margin-top: 10px;
+}
+
+.tape-result {
+  margin-top: 10px;
+  font-weight: 500;
+  color: #004d40;
+}

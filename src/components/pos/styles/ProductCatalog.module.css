@@ -1,0 +1,16 @@
+.productCatalogContainer {
+    margin-top: 2rem;
+  }
+  
+  .productList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .productItem {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    width: calc(33.333% - 1rem);
+  }
+  

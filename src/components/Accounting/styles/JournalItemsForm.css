@@ -1,0 +1,196 @@
+.journal-entry-form {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* Add spacing between the buttons */
+  margin-bottom: 20px;
+}
+
+.post-button,
+.duplicate-button {
+  background-color: #40a9ff;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+}
+
+.post-button:hover,
+.duplicate-button:hover {
+  background-color: #1890ff;
+}
+
+.journal-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Adjust to have 2 columns */
+  grid-gap: 20px; /* Gap between items */
+  margin-bottom: 30px;
+}
+
+.journal-info label {
+  font-weight: 600;
+  color: #595959;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.journal-info div {
+  display: flex;
+  flex-direction: column;
+}
+
+.journal-info .ant-input,
+.journal-info .ant-select,
+.journal-info .ant-picker {
+  border-radius: 5px;
+  padding: 8px;
+  height: 40px;
+}
+
+h3 {
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e8e8e8;
+  padding-bottom: 5px;
+}
+
+.add-item-button {
+  display: block;
+  margin-top: 15px;
+  font-size: 16px;
+  color: #40a9ff;
+  font-weight: bold;
+}
+
+.add-item-button:hover {
+  color: #1890ff;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #fafafa;
+  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+  text-transform: uppercase;
+}
+
+.ant-table-cell {
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.ant-table-tbody > tr > td {
+  background-color: white;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background-color: #f6f9fc;
+}
+
+.ant-input,
+.ant-select,
+.ant-picker {
+  border-radius: 4px;
+  height: 36px;
+  line-height: 1.4;
+}
+
+.ant-btn {
+  border-radius: 4px;
+}
+
+.footer-summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f0f0f0;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.footer-summary p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.footer-summary span {
+  color: #40a9ff;
+  font-weight: bold;
+}
+
+.footer-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.save-button {
+  background-color: #52c41a;
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.save-button:hover {
+  background-color: #389e0d;
+}
+
+.discard-button {
+  background-color: #ff4d4f;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.discard-button:hover {
+  background-color: #d9363e;
+}
+.add-item-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.add-debit-button, .add-credit-button {
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-debit-button {
+  color: #0056b3;
+  background-color: #e0f0ff;
+  border: 1px solid #b3d4fc;
+}
+
+.add-debit-button:hover {
+  background-color: #b3d4fc;
+  color: #003c82;
+  box-shadow: 0 4px 8px rgba(0, 86, 179, 0.2);
+}
+
+.add-credit-button {
+  color: #b30047;
+  background-color: #ffe0eb;
+  border: 1px solid #fcb3c8;
+}
+
+.add-credit-button:hover {
+  background-color: #fcb3c8;
+  color: #82002f;
+  box-shadow: 0 4px 8px rgba(179, 0, 71, 0.2);
+}

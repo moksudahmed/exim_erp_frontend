@@ -1,0 +1,115 @@
+.lc-tracker-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.lc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.lc-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.lc-select {
+  padding: 6px 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.lc-download-btn {
+  padding: 6px 12px;
+  font-size: 1rem;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lc-download-btn:hover {
+  background-color: #1677cc;
+}
+
+.chart-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.lc-chart {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.lc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.lc-table th,
+.lc-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: 0.85rem;
+}
+
+.status-open {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.status-submitted {
+  background-color: #fffbe6;
+  color: #faad14;
+}
+
+.status-approved {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.status-issued {
+  background-color: #f0f5ff;
+  color: #2f54eb;
+}
+
+.status-goods_received {
+  background-color: #fff0f6;
+  color: #c41d7f;
+}
+
+.status-closed {
+  background-color: #e6fffb;
+  color: #13c2c2;
+}
+
+.no-records {
+  text-align: center;
+  color: #999;
+}
+
+.lc-error {
+  color: red;
+  margin-top: 1rem;
+  text-align: center;
+}

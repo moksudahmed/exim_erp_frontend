@@ -1,0 +1,66 @@
+/* styles/OpenSaleModal.module.css */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 20px;
+    width: 50%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .saleInfo p {
+    margin: 5px 0;
+    font-size: 1rem;
+  }
+  
+  .saleTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .saleTable th,
+  .saleTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .saleTable th {
+    background: #f4f4f4;
+  }
+  .container { padding: 20px; }
+.actionsContainer { display: flex; gap: 10px; margin-bottom: 10px; }
+.table { width: 100%; border-collapse: collapse; }
+th, td { padding: 8px; border: 1px solid #ccc; }
+th { cursor: pointer; background: #f2f2f2; }

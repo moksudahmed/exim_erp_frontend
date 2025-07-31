@@ -1,0 +1,28 @@
+.lifecycle-progress {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-family: sans-serif;
+}
+
+.stage-item {
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: #eee;
+  font-weight: 500;
+  color: #333;
+}
+
+.stage-item.current {
+  background-color: #2196F3;
+  color: white;
+}
+
+.stage-item.completed {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.arrow {
+  margin: 0 10px;
+}

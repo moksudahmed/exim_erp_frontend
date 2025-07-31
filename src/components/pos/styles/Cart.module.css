@@ -1,0 +1,43 @@
+.cartContainer {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.cartTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cartTable th, .cartTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.cartTable th {
+  background-color: #007bff;
+  color: white;
+}
+
+.summarySection {
+  margin-top: 20px;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.summaryTotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.discountInput {
+  width: 50px;
+}

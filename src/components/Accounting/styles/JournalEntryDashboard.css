@@ -1,0 +1,41 @@
+.ledger-dashboard-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ledger-dashboard-summary {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.summary-item {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  flex: 1;
+  margin: 0 10px;
+}
+
+.summary-item h3 {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.summary-item p {
+  font-size: 1.5em;
+  color: #007bff;
+  margin: 0;
+}
+
+.ledger-chart {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

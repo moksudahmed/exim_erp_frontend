@@ -1,0 +1,219 @@
+/* UserManagement.module.css */
+
+.userManagementContainer {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title {
+  color: #2d3748;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.addButton {
+  background-color: #4299e1;
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.addButton:hover {
+  background-color: #3182ce;
+}
+
+.errorAlert {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #e53e3e;
+}
+
+.loadingIndicator {
+  color: #4a5568;
+  padding: 1rem;
+  text-align: center;
+  font-style: italic;
+}
+
+.formOverlay {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.userTable th {
+  background-color: #f7fafc;
+  color: #4a5568;
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.userTable td {
+  padding: 1rem;
+  border-bottom: 1px solid #edf2f7;
+  vertical-align: middle;
+  color: #2d3748;
+}
+
+.userTable tr:last-child td {
+  border-bottom: none;
+}
+
+.userTable tr:hover td {
+  background-color: #f8fafc;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.statusBadge.active {
+  background-color: #ebf8ff;
+  color: #2b6cb0;
+}
+
+.statusBadge.inactive {
+  background-color: #fff5f5;
+  color: #c53030;
+}
+
+.actionsCell {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.actionButton {
+  background-color: #edf2f7;
+  color: #2d3748;
+}
+
+.actionButton:hover {
+  background-color: #e2e8f0;
+}
+
+.deleteButton {
+  background-color: #fff5f5;
+  color: #c53030;
+  border-color: #fed7d7;
+}
+
+.deleteButton:hover {
+  background-color: #fed7d7;
+}
+
+.resetButton {
+  background-color: #ebf8ff;
+  color: #2b6cb0;
+  border-color: #bee3f8;
+}
+
+.resetButton:hover {
+  background-color: #bee3f8;
+}
+
+.roleButton {
+  background-color: #f0fff4;
+  color: #276749;
+  border-color: #c6f6d5;
+}
+
+.roleButton:hover {
+  background-color: #c6f6d5;
+}
+
+.noUsers {
+  text-align: center;
+  padding: 2rem;
+  color: #718096;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .userManagementContainer {
+    padding: 1rem;
+  }
+
+  .userTable th,
+  .userTable td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .actionsCell {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .actionButton {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .addButton {
+    width: 100%;
+    justify-content: center;
+  }
+}

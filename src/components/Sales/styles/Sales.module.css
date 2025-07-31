@@ -1,0 +1,163 @@
+.salesContainer {
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.actionsContainer input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.actionsContainer button {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.actionsContainer button svg {
+  margin-right: 5px;
+}
+
+.salesTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.salesTable th,
+.salesTable td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.salesTable th {
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.salesTable th svg {
+  margin-left: 5px;
+}
+
+.salesTable tr:hover {
+  background-color: #f2f2f2;
+}
+
+.salesTable button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.salesTable button:first-child {
+  background-color: #28a745;
+  color: #fff;
+  margin-right: 5px;
+}
+
+.salesTable button:last-child {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Modal Styling */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.editTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.editTable th,
+.editTable td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.editTable input {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.saveButton {
+  padding: 8px 15px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  padding: 8px 15px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.cancelButton svg {
+  margin-right: 5px;
+}

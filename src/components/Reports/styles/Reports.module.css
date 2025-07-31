@@ -1,0 +1,52 @@
+.reportContainer {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reportContainer h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .reportContainer p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+  
+  .reportTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
+  
+  .reportTable th, .reportTable td {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: left;
+  }
+  
+  .reportTable th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .reportTable tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+  }
+  
+  .reportTable tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .reportTable td {
+    color: #555;
+  }
+  

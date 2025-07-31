@@ -1,0 +1,580 @@
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+.posContainer {
+  display: flex;
+  justify-content: space-between;
+  font-family: Arial, sans-serif;
+}
+.orderSection {
+  flex: 1;
+  padding: 10px;
+  background-color: #f8f8f8; 
+  display: flex;
+  flex-direction: column;
+  border-style: groove;
+  border-color: aliceblue;
+  border-radius: 8px;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.orderTitle {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.orderDetails {
+  font-size: 18px;
+}
+
+.orderItems {
+  flex: 1; /* Take up remaining space */
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent the items from overflowing the section */
+  display: flex;
+  flex-direction: column;
+}
+
+.orderTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: beige;
+  /* Let the table take up full width */
+}
+
+.orderTable thead {
+  background-color: #f9f9f9;
+}
+
+.orderTable th, .orderTable td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.scrollableTbody { 
+  display: block;
+  flex: 1;
+  overflow-y: auto; /* Enable vertical scroll */
+  overflow-x: hidden; /* Hide horizontal scroll */
+  max-height: calc(80vh - 120px); /* Adjust based on viewport height */
+}
+
+.scrollableTbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.scrollableTbody td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.orderControls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.controlButton {
+  flex: 1;
+  padding: 10px;
+  margin-right: 5px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.controlButton:last-child {
+  margin-right: 0;
+}
+
+.paymentSection {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Enable wrapping for smaller screens */
+}
+.paymentArea {
+  
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  
+}
+.paymentTitle {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.paymentMethodContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+.paymentMethod {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+.paymentLabel {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+.cashLabel,
+.cardLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+.paymentSelect {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.paymentDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  
+}
+.cashSection{
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  
+}
+.cashInputSection{
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  
+}
+.cashInput,
+.cardInput {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.paymentSelect:focus,
+.cashInput:focus,
+.cardInput:focus {
+  border-color: #007bff;
+}
+.paymentSelect {
+  background-color: #fff;
+}
+
+.cashInput,
+.cardInput {
+  background-color: #fafafa;
+}
+.payButton {
+  flex: 1;
+  padding: 10px;
+  margin-right: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+}
+.customerButton {
+  flex: 1;
+  padding: 10px;
+  margin-right: 5px;
+  background-color: #ff9100;
+  color: #fff;
+  border: 1px solid #ff9100;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+}
+
+.payButton:last-child {
+  margin-right: 0;
+  background-color: #28a745;
+  border: 1px solid #28a745;
+}
+.removeButtonnn {
+  background-color: #ff4d4d; /* Bright red background */
+  color: white; /* White text color */
+  border: none; /* Remove default border */
+  padding: 8px 12px; /* Padding inside the button */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 14px; /* Slightly larger font size */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effect */
+  display: flex; /* Use flexbox to align icon and text */
+  align-items: center; /* Vertically center the icon */
+  justify-content: center; /* Horizontally center the icon */
+}
+
+.removeButton i {
+  margin-right: 0; /* Ensure the icon is centered */
+  font-size: 16px; /* Set the size of the icon */
+}
+
+.removeButton:hover {
+  background-color: #e60000; /* Darker red on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.removeButton:active {
+  background-color: #cc0000; /* Even darker red when clicked */
+  transform: scale(1); /* Reset scale to normal */
+}
+
+.removeButton:focus {
+  outline: none; /* Remove the default focus outline */
+  box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.5); /* Add a subtle red shadow on focus */
+}
+
+.categorySection {
+  width: 30%;
+  height: inherit; /* Adjust the height as needed */
+  overflow-y: auto;
+  padding: 1px;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 8px;
+  border-style: groove;
+  border-color: aliceblue;
+}
+
+.categoryButton {
+  width: 20%;
+  padding: 20px;
+  margin: 5px;
+  background-color: #486897;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  height: fit-content;
+}
+
+.inlineForm {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inlineForm .formField {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.inlineForm .formField label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+.productField {
+  width: 65%;
+}
+
+.quantityField {
+  width: 20%;
+}
+
+.buttonField {
+  width: 10%;
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+}
+
+.customerButtonField {
+  width: 40%;
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  margin-top: 24px;
+}
+.inlineForm .formField select,
+.inlineForm .formField input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.inlineForm .formField select:focus,
+.inlineForm .formField input:focus {
+  border-color: #007bff;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.btn:active {
+  background-color: #004494;
+}
+
+.inlineForm .formField select,
+.inlineForm .formField input,
+.btn {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quantityContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantityButton {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
+  font-size: 16px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.quantityButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantityButton:not(:disabled):hover {
+  background-color: #e0e0e0;
+}
+
+.quantityInput {
+  width: 50px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0 5px;
+  padding: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.quantityInput:focus {
+  border-color: #888;
+  outline: none;
+}
+.actionCell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.removeButton {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.removeButton i {
+  font-size: 16px;
+}
+
+.removeButton:hover {
+  background-color: #c0392b;
+}
+
+.quantityInput {
+  width: 60px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderSummary2 {
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.summaryLeft,
+.summaryRight {
+  width: 48%; /* Adjust the width to give space between the sections */
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summaryItem span:first-child {
+  font-weight: bold;
+}
+
+.orderSummaryTable2{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.orderSummary {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-style: groove;
+  border-color: aliceblue;
+}
+
+.orderSummaryTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orderSummaryTable th {
+  padding: 10px;
+  text-align: left;
+  color: #333;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.orderSummaryTable th:nth-child(2) {
+  text-align: right;
+}
+
+.totalRow th {
+  font-size: 18px;
+  color: #007bff;
+  border-top: 2px solid #ddd;
+}
+
+.totalRow th:nth-child(2) {
+  color: #28a745;
+}
+.numberKeyboard {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.keyboardRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.keyboardRow button {
+  width: 30%;
+  padding: 15px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.keyboardRow button:hover {
+  background-color: #0056b3;
+}
+
+.keyboardRow button:active {
+  background-color: #004494;
+}
+
+.cashInput {
+  width: 100px;
+  padding: 10px;
+  font-size: 16px;
+  text-align: right;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.discountInput {
+  width: 100px;
+  padding: 10px;
+  font-size: 16px;
+  text-align: right;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+/* Responsive styling for small screens */
+@media (max-width: 768px) {
+  .posContainer {
+    flex-direction: column;
+  }
+
+  .orderSection, .categorySection {
+    width: 100%;
+    height: auto; /* Adjust height for smaller screens */
+  }
+
+  .orderControls {
+    flex-direction: column;
+  }
+  .paymentMethodContainer {
+    flex-direction: row;
+  }
+  .summaryLeft, .summaryRight {
+    width: 100%; /* Stack sections vertically */
+  }
+
+  .controlButton, .payButton {
+    margin-bottom: 10px; /* Add space between buttons on small screens */
+  }
+}

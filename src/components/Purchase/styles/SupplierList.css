@@ -1,0 +1,77 @@
+.supplier-management-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.supplier-header-card {
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 1px;
+}
+
+.supplier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.supplier-title {
+  margin-bottom: 4px !important;
+}
+
+.supplier-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.supplier-table-card {
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.supplier-data-table .ant-table-thead > tr > th {
+  background-color: #fafafa !important;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.supplier-data-table .ant-table-tbody > tr > td {
+  transition: all 0.3s;
+}
+
+.supplier-data-table .ant-table-tbody > tr:hover > td {
+  background-color: #f9f9f9 !important;
+}
+
+.no-suppliers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .supplier-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .supplier-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .supplier-actions .ant-input {
+    width: 100% !important;
+  }
+  
+  .supplier-actions .ant-btn {
+    width: 100%;
+  }
+}

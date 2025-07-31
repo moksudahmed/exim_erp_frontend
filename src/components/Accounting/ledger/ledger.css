@@ -1,0 +1,90 @@
+.ledger-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ledger-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ledger-filters {
+  display: flex;
+  gap: 10px;
+}
+
+.ledger-filters select,
+.ledger-filters input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ledger-table th,
+.ledger-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.ledger-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.entry-type {
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.debit {
+  color: #d32f2f; /* Red for debits */
+}
+
+.credit {
+  color: #388e3c; /* Green for credits */
+}
+
+.amount, .balance {
+  font-family: monospace;
+  text-align: right;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+}
+
+.error-container {
+  padding: 20px;
+  background: #ffebee;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.error-container button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

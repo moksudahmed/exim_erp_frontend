@@ -1,0 +1,91 @@
+.cash-register-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.input-group input {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.input-group button {
+  width: 25%;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.input-group button:hover {
+  background-color: #45a049;
+}
+
+.current-balance {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cash-management {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cash-in-section, .cash-out-section {
+  width: 45%;
+}
+
+.close-register-btn {
+  display: block;
+  width: 100%;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.close-register-btn:hover {
+  background-color: #e53935;
+}
+
+.register-log-section {
+  margin-top: 30px;
+}
+
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.log-table th, .log-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.log-table th {
+  background-color: #f2f2f2;
+}

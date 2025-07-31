@@ -1,0 +1,76 @@
+import React, { useState } from "react";
+
+const PaymentForm = ({ onSubmit }) => {
+  const [form, setForm] = useState({
+    business_id: 1,
+    amount: "",
+    payment_method: "cash",
+    reference_number: "",
+    notes: "",
+    sale_id: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!form.amount || !form.sale_id) {
+      alert("Amount and Sale ID are required.");
+      return;
+    }
+    onSubmit({ ...form, amount: parseFloat(form.amount) });
+    setForm({ ...form, amount: "", reference_number: "", notes: "", sale_id: "" });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input
+        type="number"
+        name="amount"
+        placeholder="Amount"
+        className="input"
+        value={form.amount}
+        onChange={handleChange}
+        required
+      />
+      <select name="payment_method" className="input" value={form.payment_method} onChange={handleChange}>
+        <option value="cash">Cash</option>
+        <option value="bank">Bank</option>
+      </select>
+      <input
+        type="text"
+        name="reference_number"
+        placeholder="Reference #"
+        className="input"
+        value={form.reference_number}
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="notes"
+        placeholder="Notes"
+        className="input"
+        value={form.notes}
+        onChange={handleChange}
+      />
+      <input
+        type="number"
+        name="sale_id"
+        placeholder="Sale ID"
+        className="input"
+        value={form.sale_id}
+        onChange={handleChange}
+        required
+      />
+      <div className="col-span-full">
+        <button className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" type="submit">
+          Save Payment
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default PaymentForm;

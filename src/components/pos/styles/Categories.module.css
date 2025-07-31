@@ -1,0 +1,45 @@
+.categoriesContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .category {
+    margin-bottom: 20px;
+  }
+  
+  .category h3 {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    margin: 0;
+    border-radius: 5px 5px 0 0;
+  }
+  
+  .productGrid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .productButton {
+    flex: 1 1 calc(25% - 20px);
+    margin: 10px;
+    padding: 15px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .productButton:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .noCategories {
+    text-align: center;
+    padding: 20px;
+    color: #ff0000;
+  }
+  

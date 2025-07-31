@@ -1,0 +1,29 @@
+.paymentsContainer {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .filters input, .filters button {
+    padding: 6px 10px;
+  }
+  .paymentsTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .paymentsTable th, .paymentsTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  .paymentsTable th {
+    background-color: #eee;
+    cursor: pointer;
+  }
+  

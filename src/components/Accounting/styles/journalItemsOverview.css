@@ -1,0 +1,49 @@
+/* journalItemsOverview.css */
+
+.journal_overview_container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 1000px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .journal_overview_title {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .journal_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .journal_table th, .journal_table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .journal_table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .journal_table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .no_journal_message {
+    font-size: 1.2rem;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

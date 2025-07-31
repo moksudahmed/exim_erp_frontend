@@ -1,0 +1,63 @@
+/* dashboard.css */
+.accounting_page_container {
+  padding: 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.accounting_page_header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.accounting_page_title {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.accounting_page_subtitle {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.accounting_page_content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.accounting_nav {
+  flex: 1;
+  background-color: #007bff;
+  padding: 15px;
+  border-radius: 8px;
+  color: white;
+  margin-right: 20px;
+}
+
+.accounting_nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.accounting_nav li {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s;
+}
+
+.accounting_nav li:hover,
+.accounting_nav li.active {
+  background-color: #0056b3;
+  border-radius: 4px;
+}
+
+.accounting_section {
+  flex: 3;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

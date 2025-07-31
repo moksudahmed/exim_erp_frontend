@@ -1,0 +1,102 @@
+.customer-payments-container {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.payment-table th,
+.payment-table td {
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.payment-table th {
+  background-color: #004466;
+  color: white;
+}
+
+.status-pending {
+  color: #d9534f;
+  font-weight: bold;
+}
+
+.status-paid {
+  color: #5cb85c;
+  font-weight: bold;
+}
+
+.amount-negative {
+  color: #d9534f;
+}
+
+.amount-positive {
+  color: #5cb85c;
+}
+.filter-section {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-section select {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+.payment-summary {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f4f6f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.payment-summary p {
+  margin: 0;
+}
+.customer-card {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+}
+
+.export-btn {
+  margin: 10px 0;
+  padding: 8px 16px;
+  background-color: #2e86de;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  background-color: #1e70bf;
+}
+
+.amount-positive {
+  color: green;
+}
+
+.amount-negative {
+  color: red;
+}

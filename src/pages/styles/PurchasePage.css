@@ -1,0 +1,98 @@
+/* Container for the entire purchase page */
+.purchase_page_container {
+  padding: 20px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Header section */
+.purchase_page_header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.purchase_page_title {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.purchase_page_subtitle {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Main content layout */
+.purchase_page_content {
+  display: flex;
+}
+
+/* Navigation menu */
+.purchase_nav {
+  flex: 1;
+  background-color: #4CAF50;
+  padding: 15px;
+  border-radius: 8px;
+  color: white;
+  margin-right: 20px;
+}
+
+.purchase_nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.purchase_nav li {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s;
+}
+
+.purchase_nav li:hover,
+.purchase_nav li.active {
+  background-color: #388E3C;
+  border-radius: 4px;
+}
+
+/* Section for purchase content */
+.purchase_section {
+  flex: 3;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tables inside purchase section */
+.purchase_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.purchase_table th {
+  background-color: #f4f4f4;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.purchase_table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .purchase_page_content {
+    flex-direction: column;
+  }
+
+  .purchase_nav {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
