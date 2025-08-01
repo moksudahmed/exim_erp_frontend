@@ -17,7 +17,7 @@ import SupplierEntryForm from '../components/Admin/SupplierEntryForm';
 
 const AdminPage = ({branches, sales, customers, suppliers, products, onAddProduct, onUpdateProduct, onDeleteProduct, token, isAuthenticated }) => {
   const [activeSection, setActiveSection] = useState('manageProducts');
-  
+  console.log(customers);
   const renderContent = () => {
     switch (activeSection) {
       case 'manageProducts':
@@ -41,7 +41,7 @@ const AdminPage = ({branches, sales, customers, suppliers, products, onAddProduc
         return <CustomerEntryForm branches={branches}/>;   
         
       case 'manageCustomers':
-        return <ManageCustomers customers={customers} />;   
+        return <ManageCustomers token={token}/>;   
       case 'addSupplier':
         return <SupplierEntryForm  branches={branches}/>;   
      // case 'manageClients':
