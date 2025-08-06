@@ -24,6 +24,7 @@ import StockReport from '../components/Reports/StockReport';
 
 // Auth Components
 import UserManagement from '../components/Authentication/UserManagement';
+import ManageSuppliers from '../components/Admin/ManageSuppliers';
 
 const AdminPage = ({ branches, sales, customers, suppliers, products, onAddProduct, onUpdateProduct, onDeleteProduct, token, isAuthenticated }) => {
   const [activeSection, setActiveSection] = useState('manageProducts');
@@ -59,6 +60,13 @@ const AdminPage = ({ branches, sales, customers, suppliers, products, onAddProdu
         );
       case 'addSupplier':
         return <SupplierEntryForm branches={branches} />;
+      case 'manageSuppliers':
+        return (
+          <Routes>
+            <Route index element={<ManageSuppliers token={token} />} />
+            <Route path="customers/edit/:clientId" element={<EditCustomer token={token} />} />
+          </Routes>
+        );
       case 'manageClientsList':
         return <ClientList />;
       case 'manageDrivers':
@@ -120,9 +128,16 @@ const AdminPage = ({ branches, sales, customers, suppliers, products, onAddProdu
               Add Supplier
             </li>
             <li 
+              className={`${styles.navItem} ${activeSection === 'manageSuppliers' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('manageSuppliers')}
+            >
+              Manage Suppliers
+            </li>
+            <li 
               className={`${styles.navItem} ${activeSection === 'manageClientsList' ? styles.active : ''}`} 
               onClick={() => setActiveSection('manageClientsList')}
             >
+              
               Manage Clients
             </li>
             <li 
