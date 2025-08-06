@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import styles from './styles/AdminPage.module.css';
+
+// Admin Components
 import ManageProducts from '../components/Admin/ManageProducts';
 import ManageSales from '../components/Admin/ManageSales';
-import ProductCatalogue from '../components/Catalog/ProductCatalogue';
-import SalesReport from '../components/Reports/SalesReport';
-import StockReport from '../components/Reports/StockReport';
-import styles from './styles/AdminPage.module.css';
-import UserManagement from '../components/Authentication/UserManagement';
 import ManageCustomers from '../components/Admin/ManageCustomers';
+import EditCustomer from '../components/Admin/EditCustomer';
 import DriverForm from '../components/Admin/DriverForm';
 import DeliveryForm from '../components/Admin/DeliveryForm';
 import MergedDeliveryForm from '../components/Admin/MergedDeliveryForm';
@@ -15,9 +15,20 @@ import ClientList from '../components/Admin/ClientList';
 import CustomerEntryForm from '../components/Admin/CustomerEntryForm';
 import SupplierEntryForm from '../components/Admin/SupplierEntryForm';
 
-const AdminPage = ({branches, sales, customers, suppliers, products, onAddProduct, onUpdateProduct, onDeleteProduct, token, isAuthenticated }) => {
+// Catalog Components
+import ProductCatalogue from '../components/Catalog/ProductCatalogue';
+
+// Report Components
+import SalesReport from '../components/Reports/SalesReport';
+import StockReport from '../components/Reports/StockReport';
+
+// Auth Components
+import UserManagement from '../components/Authentication/UserManagement';
+
+const AdminPage = ({ branches, sales, customers, suppliers, products, onAddProduct, onUpdateProduct, onDeleteProduct, token, isAuthenticated }) => {
   const [activeSection, setActiveSection] = useState('manageProducts');
-  console.log(customers);
+  const navigate = useNavigate();
+
   const renderContent = () => {
     switch (activeSection) {
       case 'manageProducts':
@@ -38,36 +49,33 @@ const AdminPage = ({branches, sales, customers, suppliers, products, onAddProduc
       case 'manageSales':
         return <ManageSales sales={sales} />;
       case 'addCustomers':
-        return <CustomerEntryForm branches={branches}/>;   
-        
+        return <CustomerEntryForm branches={branches} />;
       case 'manageCustomers':
-        return <ManageCustomers token={token}/>;   
+        return (
+          <Routes>
+            <Route index element={<ManageCustomers token={token} />} />
+            <Route path="customers/edit/:clientId" element={<EditCustomer token={token} />} />
+          </Routes>
+        );
       case 'addSupplier':
-        return <SupplierEntryForm  branches={branches}/>;   
-     // case 'manageClients':
-     //   return <ClientEntryForm />;     
+        return <SupplierEntryForm branches={branches} />;
       case 'manageClientsList':
-        return <ClientList />;        
+        return <ClientList />;
       case 'manageDrivers':
-        return <DriverForm token={token} />;        
-     // case 'manageDeliveries':
-     //   return <DeliveryForm sales={sales} token={token} />;   
+        return <DriverForm token={token} />;
       case 'manageDeliveriesWithDriver':
-        return <MergedDeliveryForm sales={sales} token={token} />;                  
+        return <MergedDeliveryForm sales={sales} token={token} />;
       case 'salesReport':
         return <SalesReport sales={sales} />;
       case 'stockReport':
         return <StockReport products={products} />;
       case 'userManagement':
-        return <UserManagement token={token} isAuthenticated={true} />  // ✅ Correct usage
+        return <UserManagement token={token} isAuthenticated={isAuthenticated} />;
       default:
         return null;
     }
   };
 
-  <div className={styles.section}>
- 
-</div>
   return (
     <div className={styles.adminContainer}>
       <h1 className={styles.title}>Admin Dashboard</h1>
@@ -75,21 +83,78 @@ const AdminPage = ({branches, sales, customers, suppliers, products, onAddProduc
         <nav className={styles.sidebar}>
           <h2 className={styles.sidebarTitle}>Navigation</h2>
           <ul className={styles.navList}>
-            <li className={styles.navItem} onClick={() => setActiveSection('manageProducts')}>Manage Products</li>
-            <li className={styles.navItem} onClick={() => setActiveSection('productCatalogue')}>Product Catalogue</li>
-            <li className={styles.navItem} onClick={() => setActiveSection('manageSales')}>Manage Sales</li>
-            <li className={styles.navItem} onClick={() => setActiveSection('addCustomers')}>Add Customer</li>
-            <li className={styles.navItem} onClick={() => setActiveSection('manageCustomers')}>Manage Customers</li>
-            
-            <li className={styles.navItem} onClick={() => setActiveSection('addSupplier')}>Add Supplier</li>
-            {/*<li className={styles.navItem} onClick={() => setActiveSection('manageClients')}>Add Clients</li> */}
-            <li className={styles.navItem} onClick={() => setActiveSection('manageClientsList')}>Manage Clients</li>                        
-            <li className={styles.navItem} onClick={() => setActiveSection('manageDrivers')}>Manage Drivers</li>
-           {/* <li className={styles.navItem} onClick={() => setActiveSection('manageDeliveries')}>Manage Deliveries</li>*/}
-            <li className={styles.navItem} onClick={() => setActiveSection('manageDeliveriesWithDriver')}>Manage Deliveries</li>            
-            <li className={styles.navItem} onClick={() => setActiveSection('salesReport')}>Sales Report</li>
-            <li className={styles.navItem} onClick={() => setActiveSection('userManagement')}>User Management</li>
-            <li className={styles.navItem} onClick={() => setActiveSection('stockReport')}>Stock Report</li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'manageProducts' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('manageProducts')}
+            >
+              Manage Products
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'productCatalogue' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('productCatalogue')}
+            >
+              Product Catalogue
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'manageSales' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('manageSales')}
+            >
+              Manage Sales
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'addCustomers' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('addCustomers')}
+            >
+              Add Customer
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'manageCustomers' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('manageCustomers')}
+            >
+              Manage Customers
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'addSupplier' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('addSupplier')}
+            >
+              Add Supplier
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'manageClientsList' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('manageClientsList')}
+            >
+              Manage Clients
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'manageDrivers' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('manageDrivers')}
+            >
+              Manage Drivers
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'manageDeliveriesWithDriver' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('manageDeliveriesWithDriver')}
+            >
+              Manage Deliveries
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'salesReport' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('salesReport')}
+            >
+              Sales Report
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'userManagement' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('userManagement')}
+            >
+              User Management
+            </li>
+            <li 
+              className={`${styles.navItem} ${activeSection === 'stockReport' ? styles.active : ''}`} 
+              onClick={() => setActiveSection('stockReport')}
+            >
+              Stock Report
+            </li>
           </ul>
         </nav>
         <div className={styles.content}>

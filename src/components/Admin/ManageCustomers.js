@@ -3,6 +3,7 @@ import { FaEye, FaEdit, FaTrash, FaUser, FaSearch, FaPlus } from 'react-icons/fa
 import { FiFilter } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import * as clientAPI from '../../api/client';
+import ViewCustomerModal from './ViewCustomerModal';
 import './styles/ManageCustomers.css';
 
 const ManageCustomers = ({ token }) => {
@@ -12,6 +13,8 @@ const ManageCustomers = ({ token }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: 'client_id', direction: 'ascending' });
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,6 +37,19 @@ const ManageCustomers = ({ token }) => {
     loadCustomers();
   }, [loadCustomers]);
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCustomer(null);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isModalOpen) handleCloseModal();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen]);
+
   const handleDelete = async (clientId) => {
     const confirmed = window.confirm('Are you sure you want to delete this customer?');
     if (!confirmed) return;
@@ -48,13 +64,9 @@ const ManageCustomers = ({ token }) => {
     }
   };
 
-  const handleView = (clientId) => {
-    const customer = customers.find((c) => c.client_id === clientId);
-    if (customer) {
-      alert(`Customer Details:\nName: ${getFullName(customer)}\nEmail: ${customer.email || 'N/A'}`);
-      // Or navigate to a detailed view page if implemented
-      // navigate(`/customers/${clientId}`);
-    }
+  const handleView = (customer) => {
+    setSelectedCustomer(customer);
+    setIsModalOpen(true);
   };
 
   const handleEdit = (clientId) => {
@@ -112,6 +124,14 @@ const ManageCustomers = ({ token }) => {
 
   return (
     <div className="customer-management">
+      {isModalOpen && (
+        <ViewCustomerModal
+          customer={selectedCustomer}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
+      
       <div className="customer-management__header">
         <div>
           <h1 className="customer-management__title">Customer Management</h1>
@@ -192,14 +212,26 @@ const ManageCustomers = ({ token }) => {
                     </td>
                     <td>{formatDate(customer.registration_date)}</td>
                     <td>
-                      <div className="flex justify-center space-x-3">
-                        <button onClick={() => handleView(customer.client_id)} title="View">
+                      <div className="flex justify-center space-x-3 text-md">
+                        <button 
+                          onClick={() => handleView(customer)} 
+                          title="View"
+                          className="text-blue-500 hover:text-blue-700"
+                        >
                           <FaEye />
                         </button>
-                        <button onClick={() => handleEdit(customer.client_id)} title="Edit">
+                        <button 
+                          onClick={() => handleEdit(customer.client_id)} 
+                          title="Edit"
+                          className="text-green-500 hover:text-green-700"
+                        >
                           <FaEdit />
                         </button>
-                        <button onClick={() => handleDelete(customer.client_id)} title="Delete">
+                        <button 
+                          onClick={() => handleDelete(customer.client_id)} 
+                          title="Delete"
+                          className="text-red-500 hover:text-red-700"
+                        >
                           <FaTrash />
                         </button>
                       </div>

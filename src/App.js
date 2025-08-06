@@ -332,7 +332,7 @@ const App = () => {
                                                      products={products} />} 
             />
             
-            <Route path="/admin" element={<AdminPage branches={branches} 
+            <Route path="/admin/*" element={<AdminPage branches={branches} 
                                                      products={products} 
                                                      sales={sales} 
                                                      customers={customers}
@@ -364,7 +364,8 @@ const App = () => {
                                                        token={token} 
                                                        isAuthenticated={isAuthenticated}
                                                       />} 
-            /> */}          
+            /> */}       
+               
            {/* <Route path="/register" element={<Register onRegister={handleRegister} />} />*/}
             <Route path="/forgot-password" element={<ForgotPassword onForgotPassword={forgotPassword} />} />
             <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} 

@@ -201,3 +201,27 @@ export const deleteClient = async (productId, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+// In your api/client.js
+export const fetchClientById = async (clientId, token) => {
+  const response = await fetch(`${API_URL}/clients/${clientId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  if (!response.ok) throw new Error('Failed to fetch client');
+  return await response.json();
+};
+
+export const updateClient = async (clientId, data, token) => {
+  const response = await fetch(`${API_URL}/clients/${clientId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) throw new Error('Failed to update client');
+  return await response.json();
+};
