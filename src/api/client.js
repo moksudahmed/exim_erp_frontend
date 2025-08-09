@@ -204,7 +204,7 @@ export const deleteClient = async (productId, token) => {
 
 // In your api/client.js
 export const fetchClientById = async (clientId, token) => {
-  const response = await fetch(`${API_URL}/clients/${clientId}`, {
+  const response = await fetch(`${API_URL}/${clientId}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }

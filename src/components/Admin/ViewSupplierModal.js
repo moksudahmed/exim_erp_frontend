@@ -19,7 +19,7 @@ const ViewSupplierModal = ({ customer, isOpen, onClose }) => {
         <button className="modal-close-btn" onClick={onClose}>
           ✕
         </button>
-        <h2 className="modal-title">Customer Details</h2>
+        <h2 className="modal-title">Supplier Details</h2>
         <div className="modal-content">
           <div className="customer-profile-header">
             <div className="customer-avatar">
@@ -33,7 +33,7 @@ const ViewSupplierModal = ({ customer, isOpen, onClose }) => {
           
           <div className="customer-details-grid">
             <div className="detail-item">
-              <span className="detail-label">Customer ID:</span>
+              <span className="detail-label">Supplier ID:</span>
               <span className="detail-value">{customer.client_id}</span>
             </div>
             <div className="detail-item">

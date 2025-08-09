@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import * as clientAPI from '../../api/client';
 import ViewCustomerModal from './ViewCustomerModal';
 import './styles/ManageCustomers.css';
-
+import { Outlet, Link } from "react-router-dom";
 const ManageCustomers = ({ token }) => {
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
@@ -70,8 +70,9 @@ const ManageCustomers = ({ token }) => {
   };
 
   const handleEdit = (clientId) => {
-    navigate(`/customers/edit/${clientId}`);
-  };
+  navigate(`edit/${clientId}`); // relative navigation
+};
+
 
   const handleAddCustomer = () => {
     navigate('/customers/new');
@@ -220,6 +221,7 @@ const ManageCustomers = ({ token }) => {
                         >
                           <FaEye />
                         </button>
+                      
                         <button 
                           onClick={() => handleEdit(customer.client_id)} 
                           title="Edit"

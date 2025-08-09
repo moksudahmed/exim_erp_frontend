@@ -332,17 +332,20 @@ const App = () => {
                                                      products={products} />} 
             />
             
-            <Route path="/admin/*" element={<AdminPage branches={branches} 
-                                                     products={products} 
-                                                     sales={sales} 
-                                                     customers={customers}
-                                                     suppliers={suppliers}
-                                                     onAddProduct={addProduct} 
-                                                     onUpdateProduct={updateProduct} 
-                                                     onDeleteProduct={deleteProduct} 
-                                                     token={token} 
-                                                     isAuthenticated={isAuthenticated}/>} 
-            />
+            <Route path="/admin/*" element={<AdminPage 
+                                              branches={branches}  
+                                              products={products}
+                                              sales={sales} 
+                                              customers={customers}
+                                              suppliers={suppliers}
+                                              onAddProduct={addProduct} 
+                                              onUpdateProduct={updateProduct} 
+                                              onDeleteProduct={deleteProduct} 
+                                              token={token} 
+                                              isAuthenticated={isAuthenticated}
+                                            />
+                                          } />
+
            {/* <Route path="/cashregister" element={ <CashRegister openingBalance={openingBalance} 
                                                       setOpeningBalance={setOpeningBalance} 
                                                       setCurrentBalance={setCurrentBalance} 

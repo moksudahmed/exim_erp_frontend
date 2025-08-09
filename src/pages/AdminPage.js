@@ -7,6 +7,7 @@ import ManageProducts from '../components/Admin/ManageProducts';
 import ManageSales from '../components/Admin/ManageSales';
 import ManageCustomers from '../components/Admin/ManageCustomers';
 import EditCustomer from '../components/Admin/EditCustomer';
+import EditSupplier from '../components/Admin/EditSupplier';
 import DriverForm from '../components/Admin/DriverForm';
 import DeliveryForm from '../components/Admin/DeliveryForm';
 import MergedDeliveryForm from '../components/Admin/MergedDeliveryForm';
@@ -55,17 +56,21 @@ const AdminPage = ({ branches, sales, customers, suppliers, products, onAddProdu
         return (
           <Routes>
             <Route index element={<ManageCustomers token={token} />} />
-            <Route path="customers/edit/:clientId" element={<EditCustomer token={token} />} />
+            <Route element={<ManageCustomers token={token} />} />
+            <Route path="edit/:clientId" element={<EditCustomer token={token} />} />
           </Routes>
         );
+
       case 'addSupplier':
         return <SupplierEntryForm branches={branches} />;
       case 'manageSuppliers':
         return (
           <Routes>
             <Route index element={<ManageSuppliers token={token} />} />
-            <Route path="customers/edit/:clientId" element={<EditCustomer token={token} />} />
+            <Route element={<ManageSuppliers token={token} />} />
+            <Route path="edit/:clientId" element={<EditSupplier token={token} />} />
           </Routes>
+         
         );
       case 'manageClientsList':
         return <ClientList />;

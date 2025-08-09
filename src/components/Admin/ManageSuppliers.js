@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import * as clientAPI from '../../api/client';
 import ViewCustomerModal from './ViewCustomerModal';
 import './styles/ManageCustomers.css';
+import ViewSupplierModal from './ViewSupplierModal';
 
 const ManageSuppliers = ({ token }) => {
   const [customers, setCustomers] = useState([]);
@@ -26,8 +27,8 @@ const ManageSuppliers = ({ token }) => {
       setCustomers(data);
       setFilteredCustomers(data);
     } catch (error) {
-      console.error('Error fetching customers:', error);
-      setMessage({ text: 'Failed to load customers.', type: 'error' });
+      console.error('Error fetching suppliers:', error);
+      setMessage({ text: 'Failed to load suppliers.', type: 'error' });
     } finally {
       setIsLoading(false);
     }
@@ -51,16 +52,16 @@ const ManageSuppliers = ({ token }) => {
   }, [isModalOpen]);
 
   const handleDelete = async (clientId) => {
-    const confirmed = window.confirm('Are you sure you want to delete this customer?');
+    const confirmed = window.confirm('Are you sure you want to delete this supplier?');
     if (!confirmed) return;
 
     try {
       await clientAPI.deleteClient(clientId, token);
-      setMessage({ text: 'Customer deleted successfully.', type: 'success' });
+      setMessage({ text: 'Supplier deleted successfully.', type: 'success' });
       await loadCustomers();
     } catch (error) {
       console.error('Delete error:', error);
-      setMessage({ text: 'Failed to delete customer.', type: 'error' });
+      setMessage({ text: 'Failed to delete supplier.', type: 'error' });
     }
   };
 
@@ -69,12 +70,13 @@ const ManageSuppliers = ({ token }) => {
     setIsModalOpen(true);
   };
 
-  const handleEdit = (clientId) => {
-    navigate(`/customers/edit/${clientId}`);
+   const handleEdit = (clientId) => {
+    navigate(`edit/${clientId}`); // relative navigation
   };
 
+
   const handleAddCustomer = () => {
-    navigate('/customers/new');
+    navigate('/suppliers/new');
   };
 
   const handleSearch = (e) => {
@@ -117,7 +119,7 @@ const ManageSuppliers = ({ token }) => {
     return (
       <div className="customer-management__loading">
         <div className="customer-management__spinner"></div>
-        <p className="customer-management__loading-text">Loading customer data...</p>
+        <p className="customer-management__loading-text">Loading supplier data...</p>
       </div>
     );
   }
@@ -125,7 +127,7 @@ const ManageSuppliers = ({ token }) => {
   return (
     <div className="customer-management">
       {isModalOpen && (
-        <ViewCustomerModal
+        <ViewSupplierModal
           customer={selectedCustomer}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
@@ -134,13 +136,13 @@ const ManageSuppliers = ({ token }) => {
       
       <div className="customer-management__header">
         <div>
-          <h1 className="customer-management__title">Customer Management</h1>
+          <h1 className="customer-management__title">Supplier Management</h1>
           <p className="customer-management__subtitle">
-            Manage all your customer accounts and information
+            Manage all your supplier accounts and information
           </p>
         </div>
         <div className="customer-management__count-badge">
-          {filteredCustomers.length} {filteredCustomers.length === 1 ? 'Customer' : 'Customers'}
+          {filteredCustomers.length} {filteredCustomers.length === 1 ? 'Supplier' : 'Suppliers'}
         </div>
       </div>
 
@@ -175,7 +177,7 @@ const ManageSuppliers = ({ token }) => {
             <thead className="customer-management__table-header">
               <tr>
                 <th onClick={() => requestSort('client_id')}>ID</th>
-                <th onClick={() => requestSort('first_name')}>Customer</th>
+                <th onClick={() => requestSort('first_name')}>Supplier</th>
                 <th>Account Details</th>
                 <th>Contact</th>
                 <th>Location</th>
@@ -243,15 +245,15 @@ const ManageSuppliers = ({ token }) => {
                   <td colSpan="7">
                     <div className="customer-management__empty-state">
                       <FaUser className="customer-management__empty-icon" />
-                      <h3>No customers found</h3>
+                      <h3>No suppliers found</h3>
                       <p>
                         {searchTerm
-                          ? 'No customers match your search criteria.'
-                          : 'Add your first customer to get started.'}
+                          ? 'No suppliers match your search criteria.'
+                          : 'Add your first supplier to get started.'}
                       </p>
                       {!searchTerm && (
                         <button onClick={handleAddCustomer} className="customer-management__primary-btn">
-                          <FaPlus className="mr-2" /> Add Customer
+                          <FaPlus className="mr-2" /> Add Supplier
                         </button>
                       )}
                     </div>

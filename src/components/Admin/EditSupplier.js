@@ -37,10 +37,9 @@ const EditCustomer = ({token}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
-      //await updateClient(id, formData);
+      await updateClient(id, formData);
       setMessage({ text: 'Customer updated successfully!', type: 'success' });
-      setTimeout(() => navigate('/admin'), 1500);
+      setTimeout(() => navigate('/customers'), 1500);
     } catch (error) {
       console.error(error);
       setMessage({ text: 'Failed to update customer.', type: 'error' });
