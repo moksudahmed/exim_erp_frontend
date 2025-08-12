@@ -6,6 +6,7 @@ import * as clientAPI from '../../api/client';
 import ViewCustomerModal from './ViewCustomerModal';
 import './styles/ManageCustomers.css';
 import { Outlet, Link } from "react-router-dom";
+
 const ManageCustomers = ({ token }) => {
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);

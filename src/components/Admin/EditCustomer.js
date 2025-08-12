@@ -37,7 +37,28 @@ const EditCustomer = ({token}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
+      
+      const payload = {
+              person: {
+                title: formData.title,
+                first_name: formData.first_name,
+                last_name: formData.last_name,
+                contact_no: formData.contact_no,
+                gender: formData.gender
+              },
+              
+              account: {
+                //account_id: formData.account_id,
+                account_name: formData.account_name,
+                account_no: formData.account_no,
+                address: formData.address,
+                branch: formData.branch,
+                account_holder: formData.account_holder,
+                type: formData.account_type
+              }
+            };
+            console.log(payload);
+          await updateClient(id, payload, token)
       //await updateClient(id, formData);
       setMessage({ text: 'Customer updated successfully!', type: 'success' });
       setTimeout(() => navigate('/admin'), 1500);

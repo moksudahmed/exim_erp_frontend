@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { fetchClientById, updateClient } from '../../api/client';
 
 
-const EditCustomer = ({token}) => {
+const EditSupplier = ({token}) => {
   const { clientId: id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ const EditCustomer = ({token}) => {
         setFormData(data);
         console.log(data);
       } catch (error) {
-        setMessage({ text: 'Failed to load customer.', type: 'error' });
+        setMessage({ text: 'Failed to load supplier.', type: 'error' });
       }
     };
     fetchClient();
@@ -37,18 +37,40 @@ const EditCustomer = ({token}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateClient(id, formData);
-      setMessage({ text: 'Customer updated successfully!', type: 'success' });
-      setTimeout(() => navigate('/customers'), 1500);
+      
+      const payload = {
+              person: {
+                title: formData.title,
+                first_name: formData.first_name,
+                last_name: formData.last_name,
+                contact_no: formData.contact_no,
+                gender: formData.gender
+              },
+              
+              account: {
+                //account_id: formData.account_id,
+                account_name: formData.account_name,
+                account_no: formData.account_no,
+                address: formData.address,
+                branch: formData.branch,
+                account_holder: formData.account_holder,
+                type: formData.account_type
+              }
+            };
+            console.log(payload);
+          await updateClient(id, payload, token)
+      //await updateClient(id, formData);
+      setMessage({ text: 'Supplier updated successfully!', type: 'success' });
+      setTimeout(() => navigate('/admin'), 1500);
     } catch (error) {
       console.error(error);
-      setMessage({ text: 'Failed to update customer.', type: 'error' });
+      setMessage({ text: 'Failed to update supplier.', type: 'error' });
     }
   };
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow rounded-lg">
-      <h2 className="text-2xl font-semibold mb-4">Edit Customer</h2>
+      <h2 className="text-2xl font-semibold mb-4">Edit Supplier</h2>
 
       {message.text && (
         <div
@@ -79,10 +101,10 @@ const EditCustomer = ({token}) => {
           <input name="account_no" placeholder="Account Number" value={formData.account_no} onChange={handleChange} className="input" />
         </div>
 
-        <button type="submit" className="btn btn-primary w-full">Update Customer</button>
+        <button type="submit" className="btn btn-primary w-full">Update Supplier</button>
       </form>
     </div>
   );
 };
 
-export default EditCustomer;
+export default EditSupplier;

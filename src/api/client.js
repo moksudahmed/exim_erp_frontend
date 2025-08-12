@@ -214,7 +214,7 @@ export const fetchClientById = async (clientId, token) => {
 };
 
 export const updateClient = async (clientId, data, token) => {
-  const response = await fetch(`${API_URL}/clients/${clientId}`, {
+  const response = await fetch(`${API_URL}/${clientId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
