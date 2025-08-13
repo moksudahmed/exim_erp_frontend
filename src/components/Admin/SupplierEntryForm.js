@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Form,
   Input,
@@ -25,15 +25,32 @@ import {
   UserOutlined  // Added UserOutlined icon
 } from '@ant-design/icons';
 import { addClient } from '../../api/client';
-
+import { fetchBranches } from '../../api/business';
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const SupplierEntryForm = ({ branches = [], onClose }) => {
+const SupplierEntryForm = ({ token, onClose }) => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [phoneFormat, setPhoneFormat] = useState('01XXXXXXXXX');
+  const [branches, setBranches] = useState([]);
 
+  useEffect(() => {
+      const loadData = async () => {
+        try {
+          if (token) {
+            const fetchedBranches = await fetchBranches(token);         
+            setBranches(fetchedBranches);            
+            
+          }
+        } catch (error) {
+          console.error('Failed to load data:', error.message);
+        }
+      };
+  
+      loadData();
+    }, [token]);
+  
   const validateContactNumber = (_, value) => {
     if (!value) return Promise.reject('Contact number is required');
     

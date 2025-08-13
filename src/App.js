@@ -216,6 +216,32 @@ const App = () => {
     }
   };
 
+  const handleAddProduct = async (product) => {
+    try {     
+    const payload = {
+        title: product.title,
+          price_per_unit: product.price_per_unit,
+          stock: product.stock,
+          category: product.category,
+          sub_category: product.sub_category,
+          product_type: product.product_type || 'tangible',
+          unit_of_measurement: product.unit_of_measurement || null,
+          quantity_per_unit: product.quantity_per_unit || null,
+          is_stock_tracked: product.is_stock_tracked !== undefined ? product.is_stock_tracked : true,
+          tax_rate: product.tax_rate || null,
+          description: product.description || '',
+          business_id: product.business_id
+      };
+        
+    const savedProduct = await addProduct(payload, token);
+    
+    setProducts((prevProducts) => [...prevProducts, savedProduct]);
+    
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   const handleLogin = async (credentials) => {
     try {
       const { access_token, role } = await login(credentials);
@@ -338,7 +364,7 @@ const App = () => {
                                               sales={sales} 
                                               customers={customers}
                                               suppliers={suppliers}
-                                              onAddProduct={addProduct} 
+                                              onAddProduct={handleAddProduct} 
                                               onUpdateProduct={updateProduct} 
                                               onDeleteProduct={deleteProduct} 
                                               token={token} 

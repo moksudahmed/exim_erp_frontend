@@ -62,7 +62,7 @@ const AdminPage = ({ branches, sales, customers, suppliers, products, onAddProdu
         );
 
       case 'addSupplier':
-        return <SupplierEntryForm branches={branches} />;
+        return <SupplierEntryForm token={token} />;
       case 'manageSuppliers':
         return (
           <Routes>

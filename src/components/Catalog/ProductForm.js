@@ -64,15 +64,22 @@ const ProductForm = ({ onAddProduct }) => {
         <label>Stock:</label>
         <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} required />
       </div>
-
       <div className={styles.inputGroup}>
         <label>Category:</label>
-        <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} />
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="COAL">Coal</option>
+          <option value="STONE">Stone</option>
+          <option value="SAND">Sand</option>
+        </select>
       </div>
 
       <div className={styles.inputGroup}>
         <label>Sub Category:</label>
-        <input type="text" value={subCategory} onChange={(e) => setSubCategory(e.target.value)} />
+        <select value={subCategory} onChange={(e) => setSubCategory(e.target.value)}>
+          <option value="SUPER">Super</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="MIXTURE">Mixture</option>
+        </select>
       </div>
 
       {/*<div className={styles.inputGroup}>
