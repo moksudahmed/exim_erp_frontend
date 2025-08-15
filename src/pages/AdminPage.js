@@ -51,7 +51,7 @@ const AdminPage = ({ branches, sales, customers, suppliers, products, onAddProdu
       case 'manageSales':
         return <ManageSales sales={sales} />;
       case 'addCustomers':
-        return <CustomerEntryForm branches={branches} />;
+        return <CustomerEntryForm token={token}  />;
       case 'manageCustomers':
         return (
           <Routes>

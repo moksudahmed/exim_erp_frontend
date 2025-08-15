@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Form,
   Input,
@@ -24,14 +24,34 @@ import {
   ContactsOutlined
 } from '@ant-design/icons';
 import { addClient } from '../../api/client';
+import { fetchBranches } from '../../api/business';
 import dayjs from 'dayjs';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const CustomerEntryForm = ({ branches = [], onClose }) => {
+const CustomerEntryForm = ({token, onClose }) => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [branches, setBranches] = useState([]);
+  
+
+    useEffect(() => {
+        const loadData = async () => {
+          try {
+            if (token) {
+              const fetchedBranches = await fetchBranches(token);         
+              setBranches(fetchedBranches);            
+              
+            }
+          } catch (error) {
+            console.error('Failed to load data:', error.message);
+          }
+        };
+    
+        loadData();
+      }, [token]);
+  
 
   const validateContactNumber = (_, value) => {
     try {
