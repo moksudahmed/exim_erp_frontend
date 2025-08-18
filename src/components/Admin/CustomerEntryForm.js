@@ -63,8 +63,8 @@ const CustomerEntryForm = ({token, onClose }) => {
       const digitsOnly = value.replace(/\D/g, '');
       
       // Check if the cleaned value has exactly 11 digits
-      if (digitsOnly.length !== 11) {
-        return Promise.reject('Contact number must be exactly 11 digits');
+      if (digitsOnly.length !== 12) {
+        return Promise.reject('Contact number must be exactly 12 digits');
       }
       
       return Promise.resolve();
@@ -205,7 +205,7 @@ const CustomerEntryForm = ({token, onClose }) => {
           <Col xs={24}>
             <Form.Item
               name="contact_no"
-              label={<Text strong>Contact Number (11 digits)</Text>}
+              label={<Text strong>Contact Number (12 digits)</Text>}
               rules={[
                 { required: true, message: 'Required' },
                 { validator: validateContactNumber }
@@ -215,11 +215,11 @@ const CustomerEntryForm = ({token, onClose }) => {
                 prefix={<PhoneOutlined />} 
                 placeholder="01XXXXXXXXX" 
                 size="large"
-                maxLength={14} // Allows for spaces/dashes if needed
+                maxLength={15} // Allows for spaces/dashes if needed
                 onChange={(e) => {
                   // Format the number as user types (optional)
                   const value = e.target.value.replace(/\D/g, '');
-                  if (value.length <= 11) {
+                  if (value.length <= 12) {
                     const formatted = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
                     form.setFieldsValue({ contact_no: formatted });
                   }
