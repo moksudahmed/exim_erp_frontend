@@ -19,7 +19,7 @@ import { fetchBankAccounts } from '../api/subsidiary_account';
 import LetterOfCreditPage from '../components/LC/LetterOfCreditPage';
 import LcTracker from '../components/LC/LcTracker';
 
-const PurchasePage = ({ token, products }) => {
+const PurchasePage = ({ token, products, branches }) => {
   const [selectedComponent, setSelectedComponent] = useState('orders'); // Default view
   const [vendors, setVendors] =  useState([]);
   const [purchaseOrders, setPurchaseOrders] = useState([]);
@@ -32,7 +32,7 @@ const PurchasePage = ({ token, products }) => {
   const loadClients = async () => {
       try {
         const data = await fetchClientsByType('SUPPLIER', token);
-        setClients(data);
+        setClients(data);        
       } catch (err) {
         console.error('Error fetching clients:', err);
       }
@@ -163,7 +163,8 @@ const fetchBanks = async () => {
       case 'orders':
         return (
           <PurchaseOrderForm
-          clients={clients} products={products} onSubmit={onSubmit} token={token}
+          supplierList={clients} products={products} onSubmit={onSubmit}
+          branches={branches} token={token}
           />
         );
       case 'summary':

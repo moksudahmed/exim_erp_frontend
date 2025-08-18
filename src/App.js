@@ -355,7 +355,8 @@ const App = () => {
           
             
             <Route path="/purchase" element={<PurchasePage token={token}                                                     
-                                                     products={products} />} 
+                                                     products={products} 
+                                                     branches={branches}/>} 
             />
             
             <Route path="/admin/*" element={<AdminPage 

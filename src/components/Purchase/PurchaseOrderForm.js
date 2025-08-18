@@ -13,30 +13,89 @@ import {
   message,
   Statistic,
   Tag,
-  Popconfirm
+  Popconfirm,
+  Space,
+  Input,
+  Radio
 } from 'antd';
 import {
   PlusOutlined,
   ShoppingCartOutlined,
   DeleteOutlined,
   SendOutlined,
-  UserAddOutlined
+  UserAddOutlined,
+  SearchOutlined
 } from '@ant-design/icons';
-import SupplierEntryModal from './SupplierEntryModal'; // Adjust path as needed
+import SupplierEntryModal from './SupplierEntryModal';
 import './styles/PurchaseOrderForm.css';
 
 const { Option } = Select;
 const { Title, Text } = Typography;
 
-const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
+const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }) => {
+  const [form] = Form.useForm();
   const [vendor, setVendor] = useState(null);
   const [productId, setProductId] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('credit');
+  const [selectedBranch, setSelectedBranch] = useState(null);
+  const [measurementType, setMeasurementType] = useState('scale');
+  const [measurementValue, setMeasurementValue] = useState(0);
+  const [dimensions, setDimensions] = useState({
+    length: 0,
+    width: 0,
+    height: 0
+  });
   const [showSupplierModal, setShowSupplierModal] = useState(false);
-  const [supplierList, setSupplierList] = useState(clients); // Local copy to update after modal submit
+  const [searchText, setSearchText] = useState('');
+
+  const filteredProducts = products.filter(product =>
+    product.title.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const calculateTapeMeasurement = (l, w, h) => {
+    return parseFloat(((l * w * h) / 35).toFixed(3));
+  };
+
+  const handleDimensionChange = (name, value) => {
+    const newDimensions = {
+      ...dimensions,
+      [name]: parseFloat(value) || 0
+    };
+    setDimensions(newDimensions);
+    
+    if (measurementType === 'tape') {
+      const calculated = calculateTapeMeasurement(
+        newDimensions.length,
+        newDimensions.width,
+        newDimensions.height
+      );
+      setMeasurementValue(calculated);
+    }
+  };
+
+  const handleMeasurementTypeChange = (e) => {
+    const type = e.target.value;
+    setMeasurementType(type);
+    
+    if (type === 'scale') {
+      setMeasurementValue(0);
+    } else if (type === 'tape') {
+      const calculated = calculateTapeMeasurement(
+        dimensions.length,
+        dimensions.width,
+        dimensions.height
+      );
+      setMeasurementValue(calculated);
+      console.log(measurementValue);
+    }
+  };
+
+  const handleMeasurementValueChange = (value) => {
+    setMeasurementValue(value);
+  };
 
   const handleAddItem = () => {
     const product = products.find((p) => p.id === productId);
@@ -44,16 +103,24 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
     if (items.some((item) => item.product_id === productId)) {
       return message.warning('This product is already added.');
     }
+    
     const newItem = {
       product_id: productId,
       product_name: product.title,
       quantity,
       cost_per_unit: product.price_per_unit,
-      unit: product.unit || 'pcs'
+      unit: product.unit || 'pcs',
+      measurement_type: measurementType,
+      measurement_value: measurementValue,
+      ...(measurementType === 'tape' && { dimensions })
     };
+    
     setItems([...items, newItem]);
     setProductId(null);
     setQuantity(1);
+    setMeasurementType('scale');
+    setMeasurementValue(0);
+    setDimensions({ length: 0, width: 0, height: 0 });
   };
 
   const handleRemoveItem = (id) => {
@@ -78,6 +145,9 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
       status: 'PENDING',
       user_id: 1,
       items,
+      branch_id: selectedBranch,
+      measurement:measurementType,
+      measurement_value:measurementValue
     };
 
     const payment = {
@@ -88,29 +158,26 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
       notes: ''
     };
 
-    const playload = {
+    const payload = {
       order_data: orderPayload,
       payment: payment
     };
 
     try {
       setIsSubmitting(true);
-      await onSubmit(playload);
+      await onSubmit(payload);
       message.success('Purchase order submitted successfully!');
       setItems([]);
       setVendor(null);
       setPaymentMethod('credit');
+      setSelectedBranch(null);
+      form.resetFields();
     } catch (error) {
       console.error('Submission Error:', error);
-      message.error('Failed to submit purchase order. Please try again.');
+      message.error(error.response?.data?.message || 'Failed to submit purchase order. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const refreshSuppliers = async () => {
-    // If you want to fetch latest suppliers from API after creating one, you can add that here.
-    // For now we mimic by adding a success callback in modal to update local list.
   };
 
   const columns = [
@@ -135,6 +202,27 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
       render: (value) => <Text type="secondary">{value}</Text>
     },
     {
+      title: 'MEASUREMENT',
+      key: 'measurement',
+      align: 'center',
+      render: (_, record) => (
+        <div>
+          <Tag color="purple">{record.measurement_type.toUpperCase()}</Tag>
+          <div>
+            {record.measurement_type === 'tape' ? (
+              <>
+                <Text type="secondary">L: {record.dimensions.length}ft × W: {record.dimensions.width}ft × H: {record.dimensions.height}ft</Text>
+                <br />
+                <Text strong>= {record.measurement_value} tons</Text>
+              </>
+            ) : (
+              <Text strong>{record.measurement_value} tons</Text>
+            )}
+          </div>
+        </div>
+      )
+    },
+    {
       title: 'UNIT PRICE (৳)',
       dataIndex: 'cost_per_unit',
       key: 'cost_per_unit',
@@ -155,10 +243,11 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
       align: 'center',
       render: (_, record) => (
         <Button
-          type="link"
+          type="text"
           danger
           icon={<DeleteOutlined />}
           onClick={() => handleRemoveItem(record.product_id)}
+          style={{ color: '#ff4d4f' }}
         />
       ),
     },
@@ -166,15 +255,20 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
 
   return (
     <div className="purchase-order-container">
-      <Card bordered={false} className="order-header-card" bodyStyle={{ paddingBottom: 0 }}>
+      <Card 
+        bordered={false} 
+        className="order-header-card" 
+        bodyStyle={{ padding: '20px 24px' }}
+        headStyle={{ borderBottom: 0 }}
+      >
         <Row align="middle" gutter={16}>
           <Col flex="none">
             <div className="order-icon">
-              <ShoppingCartOutlined />
+              <ShoppingCartOutlined style={{ fontSize: 24, color: '#1890ff' }} />
             </div>
           </Col>
           <Col flex="auto">
-            <Title level={4} className="order-title">Create Purchase Order</Title>
+            <Title level={4} className="order-title" style={{ marginBottom: 0 }}>Create Purchase Order</Title>
             <Text type="secondary">Add products and select supplier to create new purchase order</Text>
           </Col>
           <Col flex="none">
@@ -184,7 +278,8 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
               precision={2}
               valueStyle={{
                 color: totalAmount > 0 ? '#1890ff' : '#ccc',
-                fontSize: 24
+                fontSize: 24,
+                fontWeight: 500
               }}
               prefix="৳"
               suffix="BDT"
@@ -193,9 +288,13 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
         </Row>
       </Card>
 
-      <Card className="form-card">
-        <Form layout="vertical">
-          <Row gutter={24} align="bottom">
+      <Card 
+        className="form-card" 
+        style={{ marginTop: 16, borderRadius: 8 }}
+        bodyStyle={{ padding: 24 }}
+      >
+        <Form form={form} layout="vertical">
+          <Row gutter={24}>
             <Col xs={24} md={12}>
               <Form.Item
                 label={<Text strong>Select Supplier</Text>}
@@ -218,15 +317,17 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
                       <Divider style={{ margin: '8px 0' }} />
                       <div style={{ padding: '8px', textAlign: 'center' }}>
                         <Button
-                          type="link"
+                          type="dashed"
                           icon={<UserAddOutlined />}
                           onClick={() => setShowSupplierModal(true)}
+                          block
                         >
                           Add New Supplier
                         </Button>
                       </div>
                     </>
                   )}
+                  style={{ width: '100%' }}
                 >
                   {supplierList.map((client) => (
                     <Option key={client.client_id} value={client.client_id}>
@@ -237,45 +338,80 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
               </Form.Item>
             </Col>
 
-            <Col xs={24} md={12}>
+            <Col xs={24} md={6}>
               <Form.Item label={<Text strong>Payment Method</Text>}>
                 <Select
                   size="large"
                   value={paymentMethod}
                   onChange={setPaymentMethod}
+                  style={{ width: '100%' }}
                 >
                   <Option value="credit">Credit</Option>
                   <Option value="cash">Cash</Option>
-                  <Option value="bank_transfer">Bank</Option>
+                  <Option value="bank_transfer">Bank Transfer</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} md={6}>
+              <Form.Item
+                label={<Text strong>Branch</Text>}
+                rules={[{ required: true, message: 'Please select a branch' }]}
+              >
+                <Select 
+                  placeholder="Select Branch" 
+                  size="large"
+                  showSearch
+                  optionFilterProp="children"
+                  allowClear
+                  value={selectedBranch}
+                  onChange={setSelectedBranch}
+                  style={{ width: '100%' }}
+                >
+                  {branches.map(branch => (
+                    <Option key={branch.id} value={branch.id}>
+                      {branch.branchname}
+                    </Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
           </Row>
 
           <Divider orientation="left" plain>
-            <Text type="secondary">Add Products</Text>
+            <Text type="secondary" strong>Order Items</Text>
           </Divider>
 
           <Row gutter={16} align="bottom">
             <Col xs={24} md={12} lg={10}>
               <Form.Item label={<Text strong>Product</Text>}>
-                <Select
-                  size="large"
-                  placeholder="Search products..."
-                  value={productId}
-                  onChange={setProductId}
-                  showSearch
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    option.children.toLowerCase().includes(input.toLowerCase())
-                  }
-                >
-                  {products.map((product) => (
-                    <Option key={product.id} value={product.id}>
-                      {product.title}
-                    </Option>
-                  ))}
-                </Select>
+                <Space.Compact style={{ width: '100%' }}>
+                 {/* <Input
+                    placeholder="Search products..."
+                    prefix={<SearchOutlined />}
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    allowClear
+                  />*/}
+                  <Select
+                    size="large"
+                    placeholder="Select product"
+                    value={productId}
+                    onChange={setProductId}
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      option.children.toLowerCase().includes(input.toLowerCase())
+                    }
+                    style={{ width: '100%' }}
+                  >
+                    {filteredProducts.map((product) => (
+                      <Option key={product.id} value={product.id}>
+                        {product.title}-{product.sub_category} - ৳{product.price_per_unit}
+                      </Option>
+                    ))}
+                  </Select>
+                </Space.Compact>
               </Form.Item>
             </Col>
 
@@ -291,14 +427,71 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
               </Form.Item>
             </Col>
 
-            <Col xs={12} md={6} lg={4} style={{ textAlign: 'right' }}>
+            <Col xs={24} md={12} lg={8}>
+              <Form.Item label={<Text strong>Measurement</Text>}>
+                <div style={{ marginBottom: 12 }}>
+                  <Radio.Group
+                    value={measurementType}
+                    onChange={handleMeasurementTypeChange}
+                    style={{ width: '100%' }}
+                  >
+                    <Radio.Button value="scale">Scale</Radio.Button>
+                    <Radio.Button value="tape">Tape</Radio.Button>
+                  </Radio.Group>
+                </div>
+
+                {measurementType === 'tape' ? (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+                    <InputNumber
+                      placeholder="Length (ft)"
+                      min={0}
+                      step={0.01}
+                      value={dimensions.length}
+                      onChange={(value) => handleDimensionChange('length', value)}
+                      style={{ width: '100%' }}
+                    />
+                    <InputNumber
+                      placeholder="Width (ft)"
+                      min={0}
+                      step={0.01}
+                      value={dimensions.width}
+                      onChange={(value) => handleDimensionChange('width', value)}
+                      style={{ width: '100%' }}
+                    />
+                    <InputNumber
+                      placeholder="Height (ft)"
+                      min={0}
+                      step={0.01}
+                      value={dimensions.height}
+                      onChange={(value) => handleDimensionChange('height', value)}
+                      style={{ width: '100%' }}
+                    />
+                    <div style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
+                      <Text strong>Calculated: {measurementValue} tons</Text>
+                    </div>
+                  </div>
+                ) : (
+                  <InputNumber
+                    placeholder="Measurement (tons)"
+                    min={0}
+                    step={0.01}
+                    value={measurementValue}
+                    onChange={handleMeasurementValueChange}
+                    style={{ width: '100%' }}
+                  />
+                )}
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} md={6} lg={4}>
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
                 size="large"
                 onClick={handleAddItem}
-                disabled={!productId || quantity < 1}
+                disabled={!productId || quantity < 1 || measurementValue <= 0}
                 block
+                style={{ marginTop: 29 }}
               >
                 Add Item
               </Button>
@@ -306,7 +499,7 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
           </Row>
 
           {items.length > 0 && (
-            <div className="order-items-section">
+            <div className="order-items-section" style={{ marginTop: 24 }}>
               <Table
                 dataSource={items}
                 columns={columns}
@@ -316,13 +509,26 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
                 bordered
                 scroll={{ x: true }}
                 className="order-items-table"
+                summary={() => (
+                  <Table.Summary fixed>
+                    <Table.Summary.Row>
+                      <Table.Summary.Cell index={0} colSpan={5} align="right">
+                        <Text strong>Total Amount:</Text>
+                      </Table.Summary.Cell>
+                      <Table.Summary.Cell index={1} align="right">
+                        <Text strong>৳{totalAmount.toLocaleString('en-BD')}</Text>
+                      </Table.Summary.Cell>
+                      <Table.Summary.Cell index={2} />
+                    </Table.Summary.Row>
+                  </Table.Summary>
+                )}
               />
             </div>
           )}
 
-          <div className="order-actions">
+          <div className="order-actions" style={{ marginTop: 24, textAlign: 'right' }}>
             <Popconfirm
-              title="Confirm submission"
+              title="Confirm Purchase Order Submission"
               description="Are you sure you want to submit this purchase order?"
               onConfirm={handleSubmit}
               okText="Submit"
@@ -335,24 +541,24 @@ const PurchaseOrderForm = ({ clients, products, onSubmit, token }) => {
                 icon={<SendOutlined />}
                 loading={isSubmitting}
                 disabled={!vendor || items.length === 0}
+                style={{ minWidth: 200 }}
               >
-                Submit Purchase Order
+                {isSubmitting ? 'Submitting...' : 'Submit Order'}
               </Button>
             </Popconfirm>
           </div>
         </Form>
       </Card>
 
-      {/* SUPPLIER MODAL */}
       <SupplierEntryModal
         visible={showSupplierModal}
         onClose={() => setShowSupplierModal(false)}
-        onSuccess={() => {
-          message.success('New supplier added!');
+        onSuccess={(newSupplier) => {
+          message.success('New supplier added successfully!');
           setShowSupplierModal(false);
-          // Reload supplier list from backend if needed
-          // For now, just refetch or refresh manually if needed
+          setVendor(newSupplier.client_id);
         }}
+        token={token}
       />
     </div>
   );
