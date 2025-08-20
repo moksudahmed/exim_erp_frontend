@@ -323,7 +323,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
               <Form.Item
                 label={<Text strong>Select Supplier</Text>}
                 required
-                tooltip="Choose a vendor from your client list"
+                tooltip="Choose a supplier from your client list"
               >
                 <Select
                   size="large"
@@ -333,7 +333,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                 >
                   {suppliers.map((client) => (
                     <Option key={client.client_id} value={client.client_id}>
-                      {client.account_name}
+                      {client.account_holder}
                     </Option>
                   ))}
                 </Select>
