@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Button,
   Select,
@@ -28,6 +28,7 @@ import {
 } from '@ant-design/icons';
 import SupplierEntryModal from './SupplierEntryModal';
 import './styles/PurchaseOrderForm.css';
+import * as clientAPI from '../../api/client';
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -35,9 +36,13 @@ const { Title, Text } = Typography;
 const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }) => {
   const [form] = Form.useForm();
   const [vendor, setVendor] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+   const [suppliers, setSuppliers] = useState([]);
+    const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [productId, setProductId] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState([]);
+  const [message, setMessage] = useState({ text: '', type: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('credit');
   const [selectedBranch, setSelectedBranch] = useState(null);
@@ -55,6 +60,24 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
     product.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  const loadSuppliers = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await clientAPI.fetchClientsByType('SUPPLIER', token);
+      const data = Array.isArray(response) ? response : [];
+      setSuppliers(data);
+      setFilteredCustomers(data);
+    } catch (error) {
+      console.error('Error fetching suppliers:', error);
+      setMessage({ text: 'Failed to load suppliers.', type: 'error' });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    loadSuppliers();
+  }, [loadSuppliers]);
   const calculateTapeMeasurement = (l, w, h) => {
     return parseFloat(((l * w * h) / 35).toFixed(3));
   };
@@ -329,7 +352,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                   )}
                   style={{ width: '100%' }}
                 >
-                  {supplierList.map((client) => (
+                  {suppliers.map((client) => (
                     <Option key={client.client_id} value={client.client_id}>
                       {client.account_name}
                     </Option>
