@@ -154,9 +154,9 @@ const ManageSuppliers = ({ token }) => {
 
       <div className="customer-management__search-container">
         <div className="customer-management__search-wrapper">
-          <div className="customer-management__search-icon">
+         {/* <div className="customer-management__search-icon">
             <FaSearch />
-          </div>
+          </div>*/}
           <input
             type="text"
             placeholder="Search customers by name, account or phone..."

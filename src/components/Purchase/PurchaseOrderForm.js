@@ -330,6 +330,21 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                   value={vendor}
                   onChange={setVendor}
                   style={{ width: '100%' }}
+                  dropdownRender={menu => (
+                    <>
+                      {menu}
+                      <Divider style={{ margin: '8px 0' }} />
+                      <div style={{ padding: '8px', textAlign: 'center' }}>
+                        <Button
+                          type="link"
+                          icon={<UserAddOutlined />}
+                          onClick={() => setShowSupplierModal(true)}
+                        >
+                          Add New Supplier
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 >
                   {suppliers.map((client) => (
                     <Option key={client.client_id} value={client.client_id}>
