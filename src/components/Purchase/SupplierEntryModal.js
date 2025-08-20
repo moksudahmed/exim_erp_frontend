@@ -17,6 +17,7 @@ import {
   UserOutlined,
   ArrowLeftOutlined,
   ArrowRightOutlined,
+  PhoneOutlined,
   CloseOutlined
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
@@ -25,7 +26,7 @@ import { addClient } from '../../api/client';
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const SupplierEntryModal = ({ visible, onClose, onSuccess }) => {
+const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
   const [form] = Form.useForm();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,9 +43,14 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess }) => {
   };
 
   const handleNext = () => {
-    form.validateFields()
+    // Validate only the current step's fields
+    const fieldNames = steps[currentStep].fieldNames || [];
+    form.validateFields(fieldNames)
       .then(() => setCurrentStep(currentStep + 1))
-      .catch((err) => console.log('Validation error:', err));
+      .catch((err) => {
+        console.log('Validation error:', err);
+        message.error('Please fill all required fields correctly');
+      });
   };
 
   const handlePrev = () => setCurrentStep(currentStep - 1);
@@ -52,48 +58,114 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess }) => {
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true);
+      
+      // Validate all fields first
       const values = await form.validateFields();
+      console.log('Form values:', values);
+      
+      // Safely handle contact number with null check
+      const contactNo = values.contact_no || '';
+      const cleanedContactNo = contactNo.replace(/\D/g, '');
+      
+      // Validate contact number length
+      /*if (cleanedContactNo.length !== 12) {
+        message.error('Contact number must be exactly 12 digits');
+        setIsSubmitting(false);
+        return;
+      }*/
 
       const payload = {
         person: {
-          title: values.title,
-          first_name: values.first_name,
-          last_name: values.last_name,
-          contact_no: values.contact_no,
-          gender: values.gender
+          title: values.title || '',
+          first_name: values.first_name || '',
+          last_name: values.last_name || '',
+          contact_no: cleanedContactNo,
+          gender: values.gender || ''
         },
         client: {
           client_type: 'SUPPLIER',
-          registration_date: dayjs(values.registration_date).format('YYYY-MM-DD'),
-          businesses_id: 1
+          registration_date: values.registration_date ? values.registration_date.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
+          businesses_id: 1,
         },
         account: {
-          account_id: values.account_id,
-          account_name: values.account_name,
-          account_no: values.account_no,
-          address: values.address,
-          branch: values.branch,
-          account_holder: values.account_holder,
-          type: values.account_type
-        }
+          account_name: values.account_name || '',
+          account_no: values.account_no || '',
+          address: values.address || '',
+          branch: values.branch || '',
+          account_holder: values.account_holder || '',
+          type: values.account_type || 'Supplier',
+        },
       };
-
-      await addClient(payload);
+      
+      console.log('Submitting payload:', payload);
+      await addClient(payload, token);
       message.success('Supplier created successfully!');
       resetForm();
-      onSuccess?.();
+      onSuccess?.(payload);
       onClose();
     } catch (err) {
       console.error('Failed to add supplier:', err);
-      message.error('Failed to add supplier. Please try again.');
+      if (err.errorFields) {
+        message.error('Please fill all required fields correctly');
+      } else {
+        message.error('Failed to add supplier. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const validateContactNumber = (_, value) => {
+    try {
+      if (!value) {
+        return Promise.reject('Contact number is required');
+      }
+      
+      // Remove all non-digit characters for validation
+      const digitsOnly = value.replace(/\D/g, '');
+      
+      // Check if the cleaned value has exactly 12 digits
+      if (digitsOnly.length !== 12) {
+        return Promise.reject('Contact number must be exactly 12 digits');
+      }
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Validation Error:', error);
+      return Promise.reject('Invalid contact number format');
+    }
+  };
+
+  const formatContactNumber = (value) => {
+    if (!value) return '';
+    
+    // Remove all non-digit characters
+    const digitsOnly = value.replace(/\D/g, '');
+    
+    // Format as XXX-XXXX-XXXX if we have enough digits
+    if (digitsOnly.length <= 3) {
+      return digitsOnly;
+    } else if (digitsOnly.length <= 7) {
+      return `${digitsOnly.slice(0, 3)}-${digitsOnly.slice(3)}`;
+    } else {
+      return `${digitsOnly.slice(0, 3)}-${digitsOnly.slice(3, 7)}-${digitsOnly.slice(7, 12)}`;
+    }
+  };
+
+  const handleContactNumberChange = (e) => {
+    const inputValue = e.target.value;
+    
+    // Format the displayed value
+    const formattedValue = formatContactNumber(inputValue);
+    
+    // Update the form value
+    form.setFieldsValue({ contact_no: formattedValue });
+  };
+
   const steps = [
     {
       title: 'Personal Info',
+      fieldNames: ['title', 'first_name', 'last_name', 'contact_no', 'gender'],
       content: (
         <Row gutter={16}>
           <Col span={24}>
@@ -134,10 +206,19 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess }) => {
           <Col span={12}>
             <Form.Item
               name="contact_no"
-              label="Contact Number"
-              rules={[{ required: true, message: 'Please enter contact number' }]}
+              label={<Text strong>Contact Number (12 digits)</Text>}
+              rules={[
+                { required: true, message: 'Contact number is required' },
+                { validator: validateContactNumber }
+              ]}
             >
-              <Input placeholder="Enter contact number" />
+              <Input 
+                prefix={<PhoneOutlined />} 
+                placeholder="017-XXXX-XXXXXX" 
+                size="large"
+                maxLength={14}
+                onChange={handleContactNumberChange}
+              />
             </Form.Item>
           </Col>
 
@@ -150,7 +231,7 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess }) => {
               <Radio.Group>
                 <Radio value="Male">Male</Radio>
                 <Radio value="Female">Female</Radio>
-                <Radio value="Other">Other</Radio>
+                
               </Radio.Group>
             </Form.Item>
           </Col>
@@ -159,6 +240,7 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess }) => {
     },
     {
       title: 'Account Info',
+      fieldNames: ['account_name', 'account_no', 'address', 'branch', 'account_holder', 'account_type', 'account_id', 'registration_date'],
       content: (
         <Row gutter={16}>
           <Col span={12}>
@@ -240,7 +322,6 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess }) => {
               name="registration_date"
               label="Registration Date"
               rules={[{ required: true, message: 'Please select registration date' }]}
-              initialValue={dayjs()}
             >
               <DatePicker className="w-full" />
             </Form.Item>
@@ -272,7 +353,11 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess }) => {
       <Form
         form={form}
         layout="vertical"
-        initialValues={{ registration_date: dayjs() }}
+        initialValues={{ 
+          registration_date: dayjs(),
+          account_type: 'Business'
+        }}
+        validateTrigger="onBlur"
       >
         {steps[currentStep].content}
 
