@@ -275,9 +275,37 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       ),
     },
   ];
+ const DataTable = ({ data }) => {
+      // Extract column headers from the first data object (assuming consistent structure)
+      const headers = Object.keys(data[0] || {});
 
+      return (
+        <table>
+          <thead>
+            <tr>
+              {headers.map((header, index) => (
+                <th key={index}>{header.toUpperCase()}</th> // Display headers in uppercase
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.id}> {/* Use a unique key for each row, e.g., row.id */}
+                {headers.map((header, index) => (
+                  <td key={index}>{row[header]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    };
   return (
     <div className="purchase-order-container">
+      <div>
+          <h1>User Data</h1>
+          <DataTable data={suppliers} />
+        </div>
       <Card 
         bordered={false} 
         className="order-header-card" 
