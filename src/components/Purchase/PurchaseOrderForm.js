@@ -275,7 +275,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       ),
     },
   ];
-  
+
   return (
     <div className="purchase-order-container">
    
@@ -327,25 +327,8 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
               >
                 <Select
                   size="large"
-                  placeholder="Search or select supplier"
                   value={vendor}
                   onChange={setVendor}
-                  dropdownRender={menu => (
-                    <>
-                      {menu}
-                      <Divider style={{ margin: '8px 0' }} />
-                      <div style={{ padding: '8px', textAlign: 'center' }}>
-                        <Button
-                          type="dashed"
-                          icon={<UserAddOutlined />}
-                          onClick={() => setShowSupplierModal(true)}
-                          block
-                        >
-                          Add New Supplier
-                        </Button>
-                      </div>
-                    </>
-                  )}
                   style={{ width: '100%' }}
                 >
                   {suppliers.map((client) => (
