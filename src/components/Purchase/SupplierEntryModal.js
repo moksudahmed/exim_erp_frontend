@@ -30,11 +30,13 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
   const [form] = Form.useForm();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({}); // Store form data between steps
 
   const resetForm = () => {
     form.resetFields();
     setCurrentStep(0);
     setIsSubmitting(false);
+    setFormData({});
   };
 
   const handleCancel = () => {
@@ -46,54 +48,71 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
     // Validate only the current step's fields
     const fieldNames = steps[currentStep].fieldNames || [];
     form.validateFields(fieldNames)
-      .then(() => setCurrentStep(currentStep + 1))
+      .then((values) => {
+        // Save current step data before moving to next step
+        setFormData(prev => ({ ...prev, ...values }));
+        setCurrentStep(currentStep + 1);
+      })
       .catch((err) => {
         console.log('Validation error:', err);
         message.error('Please fill all required fields correctly');
       });
   };
 
-  const handlePrev = () => setCurrentStep(currentStep - 1);
+  const handlePrev = () => {
+    // Save current step data before moving back
+    form.validateFields(steps[currentStep].fieldNames)
+      .then((values) => {
+        setFormData(prev => ({ ...prev, ...values }));
+        setCurrentStep(currentStep - 1);
+      })
+      .catch((err) => {
+        console.log('Validation error:', err);
+      });
+  };
 
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true);
       
-      // Validate all fields first
-      const values = await form.validateFields();
-      console.log('Form values:', values);
+      // Get final values from form
+      const finalValues = await form.validateFields();
+      
+      // Merge with previously saved data
+      const allValues = { ...formData, ...finalValues };
+      console.log('All form values:', allValues);
       
       // Safely handle contact number with null check
-      const contactNo = values.contact_no || '';
+      const contactNo = allValues.contact_no || '';
       const cleanedContactNo = contactNo.replace(/\D/g, '');
       
       // Validate contact number length
-      /*if (cleanedContactNo.length !== 12) {
+      if (cleanedContactNo.length !== 12) {
         message.error('Contact number must be exactly 12 digits');
         setIsSubmitting(false);
         return;
-      }*/
+      }
 
       const payload = {
         person: {
-          title: values.title || '',
-          first_name: values.first_name || '',
-          last_name: values.last_name || '',
-          contact_no: cleanedContactNo,
-          gender: values.gender || ''
+          title: allValues.title || '',
+          first_name: allValues.first_name || '',
+          last_name: allValues.last_name || '',
+          contact_no: cleanedContactNo
+          //gender: allValues.gender || ''
         },
         client: {
           client_type: 'SUPPLIER',
-          registration_date: values.registration_date ? values.registration_date.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
+          registration_date: allValues.registration_date ? allValues.registration_date.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
           businesses_id: 1,
         },
         account: {
-          account_name: values.account_name || '',
-          account_no: values.account_no || '',
-          address: values.address || '',
-          branch: values.branch || '',
-          account_holder: values.account_holder || '',
-          type: values.account_type || 'Supplier',
+          account_name: allValues.account_name || '',
+          account_no: allValues.account_no || '',
+          address: allValues.address || '',
+          branch: allValues.branch || '',
+          account_holder: allValues.account_holder || '',
+          type: 'Supplier',
         },
       };
       
@@ -165,7 +184,7 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
   const steps = [
     {
       title: 'Personal Info',
-      fieldNames: ['title', 'first_name', 'last_name', 'contact_no', 'gender'],
+      fieldNames: ['title', 'first_name', 'last_name', 'contact_no'],
       content: (
         <Row gutter={16}>
           <Col span={24}>
@@ -178,7 +197,7 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
                 <Option value="Mr.">Mr.</Option>
                 <Option value="Mrs.">Mrs.</Option>
                 <Option value="Ms.">Ms.</Option>
-                <Option value="Dr.">Dr.</Option>
+                <Option value="Dr.">M/S.</Option>
               </Select>
             </Form.Item>
           </Col>
@@ -222,7 +241,7 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
             </Form.Item>
           </Col>
 
-          <Col span={12}>
+          {/*<Col span={12}>
             <Form.Item
               name="gender"
               label="Gender"
@@ -231,10 +250,9 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
               <Radio.Group>
                 <Radio value="Male">Male</Radio>
                 <Radio value="Female">Female</Radio>
-                
               </Radio.Group>
             </Form.Item>
-          </Col>
+          </Col>*/}
         </Row>
       )
     },
@@ -354,10 +372,11 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
         form={form}
         layout="vertical"
         initialValues={{ 
-          registration_date: dayjs(),
-          account_type: 'Business'
+          ...formData, // Pre-populate with saved data
+          registration_date: formData.registration_date || dayjs(),
+          account_type: formData.account_type || 'Business'
         }}
-        validateTrigger="onBlur"
+        preserve={false} // This ensures form fields maintain their values when hidden
       >
         {steps[currentStep].content}
 
