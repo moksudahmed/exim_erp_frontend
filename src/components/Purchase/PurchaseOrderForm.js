@@ -16,7 +16,8 @@ import {
   Popconfirm,
   Space,
   Input,
-  Radio
+  Radio,
+  Tooltip
 } from 'antd';
 import {
   PlusOutlined,
@@ -24,7 +25,7 @@ import {
   DeleteOutlined,
   SendOutlined,
   UserAddOutlined,
-  SearchOutlined
+  InfoCircleOutlined
 } from '@ant-design/icons';
 import SupplierEntryModal from './SupplierEntryModal';
 import './styles/PurchaseOrderForm.css';
@@ -37,12 +38,13 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
   const [form] = Form.useForm();
   const [vendor, setVendor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-   const [suppliers, setSuppliers] = useState([]);
-    const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [productId, setProductId] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [unitPrice, setUnitPrice] = useState(0);
+  const [subcategory, setSubcategory] = useState('');
   const [items, setItems] = useState([]);
-  const [message, setMessage] = useState({ text: '', type: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('credit');
   const [selectedBranch, setSelectedBranch] = useState(null);
@@ -69,7 +71,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       setFilteredCustomers(data);
     } catch (error) {
       console.error('Error fetching suppliers:', error);
-      setMessage({ text: 'Failed to load suppliers.', type: 'error' });
+      message.error('Failed to load suppliers.');
     } finally {
       setIsLoading(false);
     }
@@ -78,6 +80,17 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
   useEffect(() => {
     loadSuppliers();
   }, [loadSuppliers]);
+
+  // Update unit price when product is selected
+  useEffect(() => {
+    if (productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        setUnitPrice(product.price_per_unit);
+      }
+    }
+  }, [productId, products]);
+
   const calculateTapeMeasurement = (l, w, h) => {
     return parseFloat(((l * w * h) / 35).toFixed(3));
   };
@@ -112,7 +125,6 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
         dimensions.height
       );
       setMeasurementValue(calculated);
-      console.log(measurementValue);
     }
   };
 
@@ -131,16 +143,19 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       product_id: productId,
       product_name: product.title,
       quantity,
-      cost_per_unit: product.price_per_unit,
+      cost_per_unit: unitPrice,
       unit: product.unit || 'pcs',
       measurement_type: measurementType,
       measurement_value: measurementValue,
+      quality: subcategory,
       ...(measurementType === 'tape' && { dimensions })
     };
     
     setItems([...items, newItem]);
     setProductId(null);
     setQuantity(1);
+    setUnitPrice(0);
+    setSubcategory('');
     setMeasurementType('scale');
     setMeasurementValue(0);
     setDimensions({ length: 0, width: 0, height: 0 });
@@ -169,8 +184,8 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       user_id: 1,
       items,
       branch_id: selectedBranch,
-      measurement:measurementType,
-      measurement_value:measurementValue
+      measurement: measurementType,
+      measurement_value: measurementValue
     };
 
     const payment = {
@@ -209,6 +224,13 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       dataIndex: 'product_name',
       key: 'product_name',
       render: (text) => <Text strong>{text}</Text>
+    },
+    {
+      title: 'QUALITY',
+      dataIndex: 'quality',
+      key: 'quality',
+      align: 'center',
+      render: (quality) => <Tag color="green">{quality}</Tag>
     },
     {
       title: 'UNIT',
@@ -278,7 +300,6 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
 
   return (
     <div className="purchase-order-container">
-   
       <Card 
         bordered={false} 
         className="order-header-card" 
@@ -400,39 +421,49 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
           </Divider>
 
           <Row gutter={16} align="bottom">
-            <Col xs={24} md={12} lg={10}>
+            {/* Product Selection */}
+            <Col xs={24} md={6} lg={5}>
               <Form.Item label={<Text strong>Product</Text>}>
-                <Space.Compact style={{ width: '100%' }}>
-                 {/* <Input
-                    placeholder="Search products..."
-                    prefix={<SearchOutlined />}
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    allowClear
-                  />*/}
-                  <Select
-                    size="large"
-                    placeholder="Select product"
-                    value={productId}
-                    onChange={setProductId}
-                    showSearch
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      option.children.toLowerCase().includes(input.toLowerCase())
-                    }
-                    style={{ width: '100%' }}
-                  >
-                    {filteredProducts.map((product) => (
-                      <Option key={product.id} value={product.id}>
-                        {product.title}-{product.sub_category} - ৳{product.price_per_unit}
-                      </Option>
-                    ))}
-                  </Select>
-                </Space.Compact>
+                <Select
+                  size="large"
+                  placeholder="Select product"
+                  value={productId}
+                  onChange={setProductId}
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().includes(input.toLowerCase())
+                  }
+                  style={{ width: '100%' }}
+                >
+                  {filteredProducts.map((product) => (
+                    <Option key={product.id} value={product.id}>
+                      {product.title}
+                    </Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
 
-            <Col xs={12} md={6} lg={4}>
+            {/* Quality Selection */}
+            <Col xs={12} md={6} lg={3}>
+              <Form.Item label={<Text strong>Quality</Text>}>
+                <Select 
+                  placeholder="Select quality"                
+                  size="large"                
+                  value={subcategory}
+                  onChange={setSubcategory}
+                  style={{ width: '100%' }}
+                >
+                  <Option value="SUPER">SUPER</Option>
+                  <Option value="MEDIUM">MEDIUM</Option>
+                  <Option value="MIXTURE">MIXTURE</Option>                  
+                </Select>                
+              </Form.Item>
+            </Col>
+
+            {/* Quantity Input */}
+            <Col xs={12} md={6} lg={3}>
               <Form.Item label={<Text strong>Quantity</Text>}>
                 <InputNumber
                   size="large"
@@ -444,9 +475,17 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
               </Form.Item>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Form.Item label={<Text strong>Measurement</Text>}>
-                <div style={{ marginBottom: 12 }}>
+            {/* Measurement Selection */}
+            <Col xs={24} md={12} lg={5}>
+              <Form.Item label={
+                <span>
+                  <Text strong>Measurement</Text>
+                  <Tooltip title="Select measurement type and enter values">
+                    <InfoCircleOutlined style={{ marginLeft: 4, color: '#999' }} />
+                  </Tooltip>
+                </span>
+              }>
+                <div style={{ marginBottom: 8 }}>
                   <Radio.Group
                     value={measurementType}
                     onChange={handleMeasurementTypeChange}
@@ -460,7 +499,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                 {measurementType === 'tape' ? (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                     <InputNumber
-                      placeholder="Length (ft)"
+                      placeholder="L (ft)"
                       min={0}
                       step={0.01}
                       value={dimensions.length}
@@ -468,7 +507,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                       style={{ width: '100%' }}
                     />
                     <InputNumber
-                      placeholder="Width (ft)"
+                      placeholder="W (ft)"
                       min={0}
                       step={0.01}
                       value={dimensions.width}
@@ -476,7 +515,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                       style={{ width: '100%' }}
                     />
                     <InputNumber
-                      placeholder="Height (ft)"
+                      placeholder="H (ft)"
                       min={0}
                       step={0.01}
                       value={dimensions.height}
@@ -489,7 +528,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                   </div>
                 ) : (
                   <InputNumber
-                    placeholder="Measurement (tons)"
+                    placeholder="Tons"
                     min={0}
                     step={0.01}
                     value={measurementValue}
@@ -500,6 +539,23 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
               </Form.Item>
             </Col>
 
+            {/* Unit Price Input */}
+            <Col xs={12} md={6} lg={4}>            
+              <Form.Item label={<Text strong>Unit Price (৳)</Text>}>
+                <InputNumber
+                  placeholder="Price"
+                  min={0}
+                  step={0.01}
+                  value={unitPrice}
+                  onChange={setUnitPrice}
+                  style={{ width: '100%' }}
+                  formatter={value => `৳ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={value => value.replace(/৳\s?|(,*)/g, '')}
+                />     
+              </Form.Item>
+            </Col>
+
+            {/* Add Item Button */}
             <Col xs={24} md={6} lg={4}>
               <Button
                 type="primary"
@@ -529,7 +585,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                 summary={() => (
                   <Table.Summary fixed>
                     <Table.Summary.Row>
-                      <Table.Summary.Cell index={0} colSpan={5} align="right">
+                      <Table.Summary.Cell index={0} colSpan={6} align="right">
                         <Text strong>Total Amount:</Text>
                       </Table.Summary.Cell>
                       <Table.Summary.Cell index={1} align="right">
@@ -574,6 +630,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
           message.success('New supplier added successfully!');
           setShowSupplierModal(false);
           setVendor(newSupplier.client_id);
+          loadSuppliers();
         }}
         token={token}
       />
