@@ -5,7 +5,6 @@ import {
   Input,
   Select,
   DatePicker,
-  Radio,
   Button,
   Row,
   Col,
@@ -13,7 +12,6 @@ import {
   message
 } from 'antd';
 import {
-  BankOutlined,
   UserOutlined,
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -30,7 +28,7 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
   const [form] = Form.useForm();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({}); // Store form data between steps
+  const [formData, setFormData] = useState({});
 
   const resetForm = () => {
     form.resetFields();
@@ -45,11 +43,9 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
   };
 
   const handleNext = () => {
-    // Validate only the current step's fields
     const fieldNames = steps[currentStep].fieldNames || [];
     form.validateFields(fieldNames)
       .then((values) => {
-        // Save current step data before moving to next step
         setFormData(prev => ({ ...prev, ...values }));
         setCurrentStep(currentStep + 1);
       })
@@ -60,7 +56,6 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
   };
 
   const handlePrev = () => {
-    // Save current step data before moving back
     form.validateFields(steps[currentStep].fieldNames)
       .then((values) => {
         setFormData(prev => ({ ...prev, ...values }));
@@ -75,18 +70,12 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
     try {
       setIsSubmitting(true);
       
-      // Get final values from form
       const finalValues = await form.validateFields();
-      
-      // Merge with previously saved data
       const allValues = { ...formData, ...finalValues };
-      console.log('All form values:', allValues);
       
-      // Safely handle contact number with null check
       const contactNo = allValues.contact_no || '';
       const cleanedContactNo = contactNo.replace(/\D/g, '');
       
-      // Validate contact number length
       if (cleanedContactNo.length !== 12) {
         message.error('Contact number must be exactly 12 digits');
         setIsSubmitting(false);
@@ -99,11 +88,12 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
           first_name: allValues.first_name || '',
           last_name: allValues.last_name || '',
           contact_no: cleanedContactNo
-          //gender: allValues.gender || ''
         },
         client: {
           client_type: 'SUPPLIER',
-          registration_date: allValues.registration_date ? allValues.registration_date.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
+          registration_date: allValues.registration_date ? 
+            allValues.registration_date.format('YYYY-MM-DD') : 
+            new Date().toISOString().split('T')[0],
           businesses_id: 1,
         },
         account: {
@@ -116,19 +106,19 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
         },
       };
       
-      console.log('Submitting payload:', payload);
       await addClient(payload, token);
       message.success('Supplier created successfully!');
       resetForm();
-      onSuccess?.(payload);
+      
+      // Call onSuccess without passing any arguments to avoid the error
+      if (onSuccess) {
+        onSuccess();
+      }
+      
       onClose();
     } catch (err) {
       console.error('Failed to add supplier:', err);
-      if (err.errorFields) {
-        message.error('Please fill all required fields correctly');
-      } else {
-        message.error('Failed to add supplier. Please try again.');
-      }
+      message.error('Failed to add supplier. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -140,17 +130,14 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
         return Promise.reject('Contact number is required');
       }
       
-      // Remove all non-digit characters for validation
       const digitsOnly = value.replace(/\D/g, '');
       
-      // Check if the cleaned value has exactly 12 digits
       if (digitsOnly.length !== 12) {
         return Promise.reject('Contact number must be exactly 12 digits');
       }
       
       return Promise.resolve();
     } catch (error) {
-      console.error('Validation Error:', error);
       return Promise.reject('Invalid contact number format');
     }
   };
@@ -158,10 +145,8 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
   const formatContactNumber = (value) => {
     if (!value) return '';
     
-    // Remove all non-digit characters
     const digitsOnly = value.replace(/\D/g, '');
     
-    // Format as XXX-XXXX-XXXX if we have enough digits
     if (digitsOnly.length <= 3) {
       return digitsOnly;
     } else if (digitsOnly.length <= 7) {
@@ -173,11 +158,7 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
 
   const handleContactNumberChange = (e) => {
     const inputValue = e.target.value;
-    
-    // Format the displayed value
     const formattedValue = formatContactNumber(inputValue);
-    
-    // Update the form value
     form.setFieldsValue({ contact_no: formattedValue });
   };
 
@@ -197,7 +178,7 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
                 <Option value="Mr.">Mr.</Option>
                 <Option value="Mrs.">Mrs.</Option>
                 <Option value="Ms.">Ms.</Option>
-                <Option value="Dr.">M/S.</Option>
+                <Option value="M/S.">M/S.</Option>
               </Select>
             </Form.Item>
           </Col>
@@ -240,25 +221,12 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
               />
             </Form.Item>
           </Col>
-
-          {/*<Col span={12}>
-            <Form.Item
-              name="gender"
-              label="Gender"
-              rules={[{ required: true, message: 'Please select gender' }]}
-            >
-              <Radio.Group>
-                <Radio value="Male">Male</Radio>
-                <Radio value="Female">Female</Radio>
-              </Radio.Group>
-            </Form.Item>
-          </Col>*/}
         </Row>
       )
     },
     {
       title: 'Account Info',
-      fieldNames: ['account_name', 'account_no', 'address', 'branch', 'account_holder', 'account_type', 'account_id', 'registration_date'],
+      fieldNames: ['account_name', 'account_no', 'address', 'branch', 'account_holder', 'registration_date'],
       content: (
         <Row gutter={16}>
           <Col span={12}>
@@ -311,30 +279,6 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
             </Form.Item>
           </Col>
 
-          <Col span={12}>
-            <Form.Item
-              name="account_type"
-              label="Account Type"
-              rules={[{ required: true, message: 'Please select account type' }]}
-            >
-              <Select placeholder="Select type">
-                <Option value="Savings">Savings</Option>
-                <Option value="Checking">Checking</Option>
-                <Option value="Business">Business</Option>
-              </Select>
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              name="account_id"
-              label="Account ID"
-              rules={[{ required: true, message: 'Please enter account ID' }]}
-            >
-              <Input placeholder="Enter account ID" />
-            </Form.Item>
-          </Col>
-
           <Col span={24}>
             <Form.Item
               name="registration_date"
@@ -372,11 +316,10 @@ const SupplierEntryModal = ({ visible, onClose, onSuccess, token }) => {
         form={form}
         layout="vertical"
         initialValues={{ 
-          ...formData, // Pre-populate with saved data
-          registration_date: formData.registration_date || dayjs(),
-          account_type: formData.account_type || 'Business'
+          ...formData,
+          registration_date: formData.registration_date || dayjs()
         }}
-        preserve={false} // This ensures form fields maintain their values when hidden
+        preserve={false}
       >
         {steps[currentStep].content}
 
