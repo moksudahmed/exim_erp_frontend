@@ -43,7 +43,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
   const [productId, setProductId] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [unitPrice, setUnitPrice] = useState(0);
-  const [subcategory, setSubcategory] = useState('');
+  const [subcategory, setSubcategory] = useState(null); // ✅ ensure proper tracking
   const [items, setItems] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('credit');
@@ -147,7 +147,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       unit: product.unit || 'pcs',
       measurement_type: measurementType,
       measurement_value: measurementValue,
-      quality: subcategory,
+      quality_type: subcategory,
       ...(measurementType === 'tape' && { dimensions })
     };
     
@@ -155,7 +155,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
     setProductId(null);
     setQuantity(1);
     setUnitPrice(0);
-    setSubcategory('');
+    setSubcategory(null);
     setMeasurementType('scale');
     setMeasurementValue(0);
     setDimensions({ length: 0, width: 0, height: 0 });
@@ -175,7 +175,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       message.error('Please select a supplier and add at least one product.');
       return;
     }
-
+   
     const orderPayload = {
       client_id: vendor,
       date: new Date().toISOString().split('T')[0],
@@ -183,9 +183,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       status: 'PENDING',
       user_id: 1,
       items,
-      branch_id: selectedBranch,
-      measurement: measurementType,
-      measurement_value: measurementValue
+      branch_id: selectedBranch
     };
 
     const payment = {
@@ -200,7 +198,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       order_data: orderPayload,
       payment: payment
     };
-
+    console.log(orderPayload);
     try {
       setIsSubmitting(true);
       await onSubmit(payload);
@@ -226,11 +224,11 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       render: (text) => <Text strong>{text}</Text>
     },
     {
-      title: 'QUALITY',
-      dataIndex: 'quality',
-      key: 'quality',
+      title: 'QUALITY TYPE',
+      dataIndex: 'quality_type',
+      key: 'quality_type',
       align: 'center',
-      render: (quality) => <Tag color="green">{quality}</Tag>
+      render: (quality_type) => <Tag color="green">{quality_type}</Tag>
     },
     {
       title: 'UNIT',
@@ -240,7 +238,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       render: (unit) => <Tag color="blue">{unit}</Tag>
     },
     {
-      title: 'QUANTITY',
+      title: 'QUANTITY (MT)',
       dataIndex: 'quantity',
       key: 'quantity',
       align: 'center',
@@ -447,24 +445,18 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
 
             {/* Quality Selection */}
             <Col xs={12} md={6} lg={3}>
-              <Form.Item label={<Text strong>Quality</Text>}>
-                <Select 
-                  placeholder="Select quality"                
-                  size="large"                
-                  value={subcategory}
-                  onChange={setSubcategory}
-                  style={{ width: '100%' }}
-                >
-                  <Option value="SUPER">SUPER</Option>
-                  <Option value="MEDIUM">MEDIUM</Option>
-                  <Option value="MIXTURE">MIXTURE</Option>                  
-                </Select>                
+              <Form.Item label={<Text strong>Quality Type</Text>}>
+                <Select value={subcategory} onChange={setSubcategory} placeholder="Select quality" size="large">
+                <Option value="SUPER">SUPER</Option>
+                <Option value="MEDIUM">MEDIUM</Option>
+                <Option value="MIXTURE">MIXTURE</Option>
+              </Select>                
               </Form.Item>
             </Col>
 
             {/* Quantity Input */}
             <Col xs={12} md={6} lg={3}>
-              <Form.Item label={<Text strong>Quantity</Text>}>
+              <Form.Item label={<Text strong>Quantity (MT)</Text>}>
                 <InputNumber
                   size="large"
                   min={1}
