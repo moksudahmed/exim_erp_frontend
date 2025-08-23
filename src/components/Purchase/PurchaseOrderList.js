@@ -57,7 +57,7 @@ const PurchaseOrderList = ({
       render: (id) => <Text strong>#{id}</Text>,
     },
     {
-      title: 'Vendor ID',
+      title: 'Supplier ID',
       dataIndex: 'client_id',
       key: 'client_id',
     },
@@ -83,13 +83,6 @@ const PurchaseOrderList = ({
       dataIndex: 'total_amount',
       key: 'total_amount',
       render: (amount) => <Text strong>{formatCurrency(amount)}</Text>,
-      align: 'right',
-    },
-    {
-      title: 'Measurement',
-      dataIndex: 'measurement',
-      key: 'measurement',
-      render: (measurement) => <Text strong>{measurement || 'N/A'}</Text>,
       align: 'right',
     },
     {
@@ -177,7 +170,7 @@ const PurchaseOrderList = ({
           <div style={{ padding: '16px 0' }}>
             <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <div>
-                <Text strong>Vendor ID:</Text> {selectedOrder.client_id}
+                <Text strong>Supplier ID:</Text> {selectedOrder.client_id}
               </div>
               <div>
                 <Text strong>Order Date:</Text> {new Date(selectedOrder.date).toLocaleDateString()}

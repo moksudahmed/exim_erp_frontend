@@ -219,6 +219,12 @@ const fetchBanks = async () => {
              Local Purchase Orders
             </li>
             <li
+              className={selectedComponent === 'summary' ? 'active' : ''}
+              onClick={() => setSelectedComponent('summary')}
+            >
+              Local Purchase List
+            </li>
+            <li
               className={selectedComponent === 'lcpage' ? 'active' : ''}
               onClick={() => setSelectedComponent('lcpage')}
             >
@@ -244,12 +250,7 @@ const fetchBanks = async () => {
              LC Tracker
             </li>
              
-            <li
-              className={selectedComponent === 'summary' ? 'active' : ''}
-              onClick={() => setSelectedComponent('summary')}
-            >
-              Purchase Summary
-            </li>
+            
           {/*  <li
               className={selectedComponent === 'vendors' ? 'active' : ''}
               onClick={() => setSelectedComponent('vendors')}
