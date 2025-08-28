@@ -16,16 +16,14 @@ import {
   Popconfirm,
   Space,
   Input,
-  Radio,
-  Tooltip
+  Radio
 } from 'antd';
 import {
   PlusOutlined,
   ShoppingCartOutlined,
   DeleteOutlined,
   SendOutlined,
-  UserAddOutlined,
-  InfoCircleOutlined
+  UserAddOutlined
 } from '@ant-design/icons';
 import SupplierEntryModal from './SupplierEntryModal';
 import './styles/PurchaseOrderForm.css';
@@ -43,7 +41,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
   const [productId, setProductId] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [unitPrice, setUnitPrice] = useState(0);
-  const [subcategory, setSubcategory] = useState(null); // ✅ ensure proper tracking
+  const [subcategory, setSubcategory] = useState(null);
   const [items, setItems] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('credit');
@@ -80,16 +78,6 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
   useEffect(() => {
     loadSuppliers();
   }, [loadSuppliers]);
-
-  // Update unit price when product is selected
-  useEffect(() => {
-    if (productId) {
-      const product = products.find(p => p.id === productId);
-      if (product) {
-        setUnitPrice(product.price_per_unit);
-      }
-    }
-  }, [productId, products]);
 
   const calculateTapeMeasurement = (l, w, h) => {
     return parseFloat(((l * w * h) / 35).toFixed(3));
@@ -166,7 +154,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
   };
 
   const totalAmount = items.reduce(
-    (sum, item) => sum + item.quantity * item.cost_per_unit,
+    (sum, item) => sum + item.cost_per_unit,
     0
   );
 
@@ -198,7 +186,7 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
       order_data: orderPayload,
       payment: payment
     };
-    console.log(orderPayload);
+    
     try {
       setIsSubmitting(true);
       await onSubmit(payload);
@@ -447,10 +435,10 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
             <Col xs={12} md={6} lg={3}>
               <Form.Item label={<Text strong>Quality Type</Text>}>
                 <Select value={subcategory} onChange={setSubcategory} placeholder="Select quality" size="large">
-                <Option value="SUPER">SUPER</Option>
-                <Option value="MEDIUM">MEDIUM</Option>
-                <Option value="MIXTURE">MIXTURE</Option>
-              </Select>                
+                  <Option value="SUPER">SUPER</Option>
+                  <Option value="MEDIUM">MEDIUM</Option>
+                  <Option value="MIXTURE">MIXTURE</Option>
+                </Select>                
               </Form.Item>
             </Col>
 
@@ -467,73 +455,9 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
               </Form.Item>
             </Col>
 
-            {/* Measurement Selection */}
-            <Col xs={24} md={12} lg={5}>
-              <Form.Item label={
-                <span>
-                  <Text strong>Measurement</Text>
-                  <Tooltip title="Select measurement type and enter values">
-                    <InfoCircleOutlined style={{ marginLeft: 4, color: '#999' }} />
-                  </Tooltip>
-                </span>
-              }>
-                <div style={{ marginBottom: 8 }}>
-                  <Radio.Group
-                    value={measurementType}
-                    onChange={handleMeasurementTypeChange}
-                    style={{ width: '100%' }}
-                  >
-                    <Radio.Button value="scale">Scale</Radio.Button>
-                    <Radio.Button value="tape">Tape</Radio.Button>
-                  </Radio.Group>
-                </div>
-
-                {measurementType === 'tape' ? (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-                    <InputNumber
-                      placeholder="L (ft)"
-                      min={0}
-                      step={0.01}
-                      value={dimensions.length}
-                      onChange={(value) => handleDimensionChange('length', value)}
-                      style={{ width: '100%' }}
-                    />
-                    <InputNumber
-                      placeholder="W (ft)"
-                      min={0}
-                      step={0.01}
-                      value={dimensions.width}
-                      onChange={(value) => handleDimensionChange('width', value)}
-                      style={{ width: '100%' }}
-                    />
-                    <InputNumber
-                      placeholder="H (ft)"
-                      min={0}
-                      step={0.01}
-                      value={dimensions.height}
-                      onChange={(value) => handleDimensionChange('height', value)}
-                      style={{ width: '100%' }}
-                    />
-                    <div style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
-                      <Text strong>Calculated: {measurementValue} tons</Text>
-                    </div>
-                  </div>
-                ) : (
-                  <InputNumber
-                    placeholder="Tons"
-                    min={0}
-                    step={0.01}
-                    value={measurementValue}
-                    onChange={handleMeasurementValueChange}
-                    style={{ width: '100%' }}
-                  />
-                )}
-              </Form.Item>
-            </Col>
-
             {/* Unit Price Input */}
             <Col xs={12} md={6} lg={4}>            
-              <Form.Item label={<Text strong>Unit Price (৳)</Text>}>
+              <Form.Item label={<Text strong>Price (৳)</Text>}>
                 <InputNumber
                   placeholder="Price"
                   min={0}
@@ -546,23 +470,112 @@ const PurchaseOrderForm = ({ supplierList, products, onSubmit, branches, token }
                 />     
               </Form.Item>
             </Col>
-
-            {/* Add Item Button */}
-            <Col xs={24} md={6} lg={4}>
+          </Row>
+          
+          {/* Fixed: Measurement and Add Item Button in One Line */}
+          <Row gutter={16} align="bottom">
+            <Col xs={24} md={18}>
+              <Row gutter={16}>
+                <Col xs={24} md={6}>
+                  <Form.Item label={<Text strong>Measurement Type</Text>}>
+                    <Radio.Group
+                      value={measurementType}
+                      onChange={handleMeasurementTypeChange}
+                      style={{ width: '100%' }}
+                    >
+                      <Radio.Button value="scale" style={{ width: '50%', textAlign: 'center' }}>Scale</Radio.Button>
+                      <Radio.Button value="tape" style={{ width: '50%', textAlign: 'center' }}>Tape</Radio.Button>
+                    </Radio.Group>
+                  </Form.Item>
+                </Col>
+                
+                {measurementType === 'tape' ? (
+                  <>
+                    <Col xs={8} md={6}>
+                      <Form.Item label={<Text strong>Length (ft)</Text>}>
+                        <InputNumber
+                          placeholder="Length"
+                          min={0}
+                          step={0.01}
+                          value={dimensions.length}
+                          onChange={(value) => handleDimensionChange('length', value)}
+                          style={{ width: '100%' }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={8} md={6}>
+                      <Form.Item label={<Text strong>Width (ft)</Text>}>
+                        <InputNumber
+                          placeholder="Width"
+                          min={0}
+                          step={0.01}
+                          value={dimensions.width}
+                          onChange={(value) => handleDimensionChange('width', value)}
+                          style={{ width: '100%' }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={8} md={6}>
+                      <Form.Item label={<Text strong>Height (ft)</Text>}>
+                        <InputNumber
+                          placeholder="Height"
+                          min={0}
+                          step={0.01}
+                          value={dimensions.height}
+                          onChange={(value) => handleDimensionChange('height', value)}
+                          style={{ width: '100%' }}
+                        />
+                      </Form.Item>
+                    </Col>
+                  </>
+                ) : (
+                  <Col xs={24} md={12}>
+                    <Form.Item label={<Text strong>Measurement (tons)</Text>}>
+                      <InputNumber
+                        placeholder="Measurement"
+                        min={0}
+                        step={0.01}
+                        value={measurementValue}
+                        onChange={handleMeasurementValueChange}
+                        style={{ width: '100%' }}
+                      />
+                    </Form.Item>
+                  </Col>
+                )}
+                
+                {measurementType === 'tape' && (
+                  <Col xs={24} md={6}>
+                    <Form.Item label={<Text strong>Calculated Value</Text>}>
+                      <div style={{ 
+                        padding: '5px 12px', 
+                        background: '#f0f0f0',
+                        borderRadius: 6,
+                        height: 32,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}>
+                        <Text strong>{measurementValue} tons</Text>
+                      </div>
+                    </Form.Item>
+                  </Col>
+                )}
+              </Row>
+            </Col>
+            
+            <Col xs={24} md={6} style={{ display: 'flex', alignItems: 'flex-end' }}>
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
                 size="large"
                 onClick={handleAddItem}
                 disabled={!productId || quantity < 1 || measurementValue <= 0}
-                block
-                style={{ marginTop: 29 }}
+                style={{ width: '100%', height: '40px' }}
               >
                 Add Item
               </Button>
             </Col>
           </Row>
-
+         
           {items.length > 0 && (
             <div className="order-items-section" style={{ marginTop: 24 }}>
               <Table
