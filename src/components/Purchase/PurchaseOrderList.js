@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { Table, Button, Modal, message, Tag, Space, Typography } from 'antd';
-import { EyeOutlined, CheckCircleOutlined, CloseCircleOutlined, CheckSquareOutlined } from '@ant-design/icons';
+import { Table, Button, message, Tag, Space, Typography } from 'antd';
+import { EyeOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import OrderDetailsModal from './OrderDetailsModal';
 
 const { Text } = Typography;
 
@@ -17,7 +18,8 @@ const PurchaseOrderList = ({
   onCancel, 
   selectedOrder, 
   onComplete,
-  branches
+  branches,
+  suppliers
 }) => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -57,18 +59,26 @@ const PurchaseOrderList = ({
       render: (id) => <Text strong>#{id}</Text>,
     },
     {
-      title: 'Supplier ID',
+      title: 'Supplier',
       dataIndex: 'client_id',
       key: 'client_id',
+      render: (client_id) => {
+        const supplier = suppliers.find(s => s.client_id === client_id);
+        return (
+          <div>
+            <Text strong>{`${supplier?.title || ''} ${supplier?.first_name || ''} ${supplier?.last_name || ''}`.trim()}</Text>
+            <br />
+            <Text type="secondary">{supplier?.account_name || '—'}</Text>
+          </div>
+        );
+      },
     },
     {
       title: 'Branch',
       dataIndex: 'branch_id',
       key: 'branch_id',
       render: (branch_id) => {
-        // Since your branches don't have branch_id, we'll use the index as ID
-        // This assumes that branch_id in purchaseOrders corresponds to the index in branches array
-        const branch = branches[branch_id];
+        const branch = branches.find(b => b.id === branch_id);
         return <Text strong>{branch ? branch.branchname : 'N/A'}</Text>;
       },
     },
@@ -125,19 +135,10 @@ const PurchaseOrderList = ({
           >
             Cancel
           </Button>
-          <Button
-            icon={<CheckSquareOutlined />}
-            onClick={() => onComplete(record.id)}
-            disabled={record.status === 'CANCEL'}
-            size="small"
-            type="primary"
-          >
-            Complete
-          </Button>
         </Space>
       ),
     },
-  ], [loading, selectedOrder, branches]);
+  ], [loading, selectedOrder, branches, suppliers, onReceive, onCancel]);
 
   return (
     <>
@@ -155,85 +156,13 @@ const PurchaseOrderList = ({
         }}
       />
       
-      <Modal
-        title={`Order Details - #${selectedOrder?.id || ''}`}
-        visible={modalVisible}
-        onCancel={handleModalClose}
-        footer={[
-          <Button key="close" onClick={handleModalClose}>
-            Close
-          </Button>
-        ]}
-        width={700}
-      >
-        {selectedOrder && (
-          <div style={{ padding: '16px 0' }}>
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              <div>
-                <Text strong>Supplier ID:</Text> {selectedOrder.client_id}
-              </div>
-              <div>
-                <Text strong>Order Date:</Text> {new Date(selectedOrder.date).toLocaleDateString()}
-              </div>
-              <div>
-                <Text strong>Total Amount:</Text> {formatCurrency(selectedOrder.total_amount)}
-              </div>
-              <div>
-                <Text strong>Status:</Text> 
-                <Tag 
-                  color={
-                    selectedOrder.status === 'COMPLETED' ? 'green' : 
-                    selectedOrder.status === 'CANCEL' ? 'red' : 
-                    'blue'
-                  }
-                  style={{ marginLeft: 8 }}
-                >
-                  {selectedOrder.status}
-                </Tag>
-              </div>
-              <div>
-                <Text strong>Items:</Text>
-                <Table
-                  size="small"
-                  dataSource={selectedOrder.items || []}
-                  pagination={false}
-                  columns={[
-                    {
-                      title: 'Product ID',
-                      dataIndex: 'product_id',
-                      key: 'product_id',
-                    },
-                    {
-                      title: 'Quantity',
-                      dataIndex: 'quantity',
-                      key: 'quantity',
-                      align: 'right',
-                    },
-                    {
-                      title: 'Unit Cost',
-                      dataIndex: 'cost_per_unit',
-                      key: 'cost_per_unit',
-                      render: (cost) => formatCurrency(cost),
-                      align: 'right',
-                    },
-                    {
-                      title: 'Total',
-                      key: 'total',
-                      render: (_, record) => {
-                        const quantity = record.quantity || 0;
-                        const cost = record.cost_per_unit || 0;
-                        return formatCurrency(quantity * cost);
-                      },
-                      align: 'right',
-                    }
-                  ]}
-                  rowKey="product_id"
-                />
-              </div>
-            </Space>
-          </div>
-        )}
-      </Modal>
+      <OrderDetailsModal
+        selectedOrder={selectedOrder}
+        modalVisible={modalVisible}
+        handleModalClose={handleModalClose}
+        suppliers={suppliers}
+        formatCurrency={formatCurrency}
+      />
     </>
   );
 };

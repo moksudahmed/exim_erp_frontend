@@ -8,9 +8,7 @@ const StockUpdate = ({ products, onUpdateStock, onDeductDamaged, onAddInventory,
     
    
   return (
-    <div>
-      <h2>Stock Update</h2>
-      <p>Update stock levels and mark items as damaged here.</p>
+    <div>    
       <Stock products={products} onUpdateStock={onUpdateStock} onDeductDamaged={onDeductDamaged} onAddInventory={onAddInventory}/>
       {/* You can add UI for selecting products, adding stock, or marking damaged */}
     </div>

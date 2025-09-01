@@ -170,7 +170,7 @@ const fetchBanks = async () => {
       case 'summary':
         return <PurchaseOrderList purchaseOrders={purchaseOrders} onReceive={onReceive} onView={onView} 
                 onCancel={onCancel} selectedOrder={selectedOrder} onComplete={onComplete}
-                branches={branches}
+                branches={branches} suppliers={suppliers}
               
         //vendors={vendors} products={products} onSubmit={onSubmit}
         />;  
