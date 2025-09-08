@@ -10,14 +10,17 @@ import {
   BranchesOutlined
 } from '@ant-design/icons';
 import ManageBranches from '../components/Business/ManageBranches';
+import ManageWarehouse from '../components/Business/ManageWarehouse';
+
 
 const { Header, Sider, Content } = Layout;
 const { Option } = Select;
 
-const BusinessDashboard = ({branches, token}) => {
+const BusinessDashboard = ({branches, warehouseData, token}) => {
+  
   const [collapsed, setCollapsed] = useState(false);
   const [currentTab, setCurrentTab] = useState('businesses');
- 
+
   // Sample data from your backend models
   const [businesses, setBusinesses] = useState([
     { id: 1, name: 'Acme Corp', tax_id: '123-45-6789', status: 'active' }
@@ -87,6 +90,13 @@ const BusinessDashboard = ({branches, token}) => {
             onClick={() => setCurrentTab('branches')}
           >
             Branches
+          </Menu.Item>
+           <Menu.Item 
+            key="warehouse" 
+            icon={<BranchesOutlined />}
+            onClick={() => setCurrentTab('warehouse')}
+          >
+            Warehouse
           </Menu.Item>
           <Menu.Item 
             key="members" 
@@ -183,6 +193,9 @@ const BusinessDashboard = ({branches, token}) => {
 
           {currentTab === 'branches' && (
             <ManageBranches branches={branches} token={token}/>
+          )}
+           {currentTab === 'warehouse' && (
+            <ManageWarehouse warehouse={warehouseData} branches={branches} token={token}/>
           )}
         </Content>
       </Layout>

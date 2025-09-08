@@ -28,7 +28,7 @@ import { plugins } from 'chart.js';
 import BusinessDashboard from './pages/BusinessDashboard';
 import PaymentPage from './pages/PaymentPage';
 import { fetchCustomers} from './api/customer';
-import { fetchBranches } from './api/business';
+import { fetchBranches, fetchWarehouses } from './api/business';
 import { fetchClients } from "./api/client";
 //import { fetchTransactions } from './api/transaction';
 import { fetchClientsByType } from './api/client';
@@ -54,6 +54,7 @@ const App = () => {
   const [transactionLogs, setTransactionLogs] = useState([]);
   const [currentDate, setCurrentDate] = useState('');  
   const [branches, setBranches] = useState([]);
+  const [warehouse, setWarehouse] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
 
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -91,6 +92,10 @@ const App = () => {
           
           const fetchedClients = await fetchClients(token);
           setClients(fetchedClients);
+
+          const fetchedWarehouse = await fetchWarehouses(token);
+          setWarehouse(fetchedWarehouse);          
+
         }
       } catch (error) {
         console.error('Failed to load data:', error.message);
@@ -311,6 +316,7 @@ const App = () => {
             />
             <Route path="/business" element={<BusinessDashboard 
                                               branches={branches} 
+                                              warehouseData={warehouse}
                                               token={token}/>} 
             />
             

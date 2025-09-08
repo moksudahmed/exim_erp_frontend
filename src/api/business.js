@@ -24,7 +24,42 @@ export const fetchWarehouses = async (token) => {
   const response = await axios.get(`${API_URL}/warehouses/`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  return response.data;
+
+  return response.data;  
+};
+
+export const addWarehouse = async (warehouse, token) => {
+  try {   
+    const response = await axios.post(`${API_URL}/warehouses/`, warehouse, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      // Server responded with a status outside the 2xx range
+      const detail = error.response.data?.detail;
+
+      // Handle duplicate account_name error from backend
+      if (typeof detail === 'string' && detail.includes("already exists")) {
+        throw new Error(`Warehouses with name "${warehouse.warehouse_name}" already exists.`);
+      }
+
+      console.error('API error:', error.response.data);
+      throw new Error(detail || 'Failed to add account');
+    } else if (error.request) {
+      // Request was made but no response received
+      console.error('No response from server:', error.request);
+      throw new Error('No response from server. Please check your connection and try again.');
+    } else {
+      // Other unexpected errors
+      console.error('Unexpected error:', error.message);
+      throw new Error('An unexpected error occurred. Please try again.');
+    }
+  }
 };
 
 export const addBranche = async (branch, token) => {
