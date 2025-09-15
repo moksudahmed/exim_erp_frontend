@@ -349,6 +349,7 @@ const App = () => {
                                                     onDeductDamaged={handleDeductDamaged} 
                                                     onAddInventory={handleAddInventory}
                                                     setProducts={setProducts}
+                                                    warehouse={warehouse}
                                                     isAuthenticated={isAuthenticated}
                                                     token={token}/>} 
             />

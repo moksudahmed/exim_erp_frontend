@@ -8,7 +8,7 @@ import InventoryReport from '../components/Inventory/InventoryReport';
 import ReceiveStock from '../components/Inventory/ReceiveStock';
 import { getReceivedOrder, onCompletePurchaseOrders} from '../api/purchase';
 
-const InventoryPage = ({ products, inventoryLogs, setInventoryLogs, onUpdateStock, onDeductDamaged, onAddInventory, setProducts, isAuthenticated, token }) => {
+const InventoryPage = ({ products, inventoryLogs, setInventoryLogs, onUpdateStock, onDeductDamaged, onAddInventory, setProducts, warehouse, isAuthenticated, token }) => {
   const [selectedComponent, setSelectedComponent] = useState('products'); // Set default view to 'products'
   const [receivedPurchaseOrder, setReceivedPurchaseOrder] = useState([]);
   // Navigation handler
@@ -61,6 +61,7 @@ const InventoryPage = ({ products, inventoryLogs, setInventoryLogs, onUpdateStoc
           <InventoryLogs
             products={products}
             inventoryLogs={inventoryLogs}
+            warehouse={warehouse}
           />
         );
         case 'reports':
