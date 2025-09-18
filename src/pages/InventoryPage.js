@@ -52,7 +52,8 @@ const InventoryPage = ({ products, inventoryLogs, setInventoryLogs, onUpdateStoc
             <ReceiveStock products={products}   
             setProducts={setProducts} 
             receiveItems={receivedPurchaseOrder}
-            isAuthenticated={isAuthenticated}
+            warehouse={warehouse}
+            isAuthenticated={isAuthenticated}            
             token={token}/>
           );
         

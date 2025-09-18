@@ -36,7 +36,7 @@ const ManageWarehouses = ({ warehouses = [], branches = [], token }) => {
   const [searchText, setSearchText] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingWarehouse, setEditingWarehouse] = useState(null);
-
+  console.log(warehouses);
   const handleAddWarehouse = async (values) => {
     setLoading(true);
     try {
