@@ -12,7 +12,8 @@ export const fetchInventory = async (token) => {
   return response.data;
 };
 
-export const addInventory = async (product, token) => {  
+export const addInventory = async (product, token) => {
+  console.log(product);  
   const response = await axios.post(API_URL, product, {
     headers: { Authorization: `Bearer ${token}` },
   });
